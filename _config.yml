@@ -1,7 +1,6 @@
 theme: jekyll-theme-minimal
 lsi: false
 safe: true
-source: gisforthought
 incremental: false
 highlighter: rouge
 gist:
