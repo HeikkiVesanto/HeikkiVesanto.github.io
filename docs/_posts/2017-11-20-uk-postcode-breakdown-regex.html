@@ -1,0 +1,37 @@
+---
+layout: post
+status: publish
+published: true
+title: UK Postcode Breakdown RegEX
+author: Heikki Vesanto
+permalink: /uk-postcode-breakdown-regex/
+date: '2017-11-20 09:00:52 +0000'
+date_gmt: '2017-11-20 09:00:52 +0000'
+---
+<p>UK postcodes are broken down/divided into 4 levels: Areas, Districts, Sectors, and Units.</p>
+<p>For G12 8QH the breakdown is:<br />
+Area &ndash; <strong>G</strong><br />
+District &ndash; <strong>G12</strong><br />
+Sector &ndash; <strong>G12 8</strong><br />
+Unit &ndash; <strong>G12 8QH</strong></p>
+<p>See my previous post:<br />
+<a href="http://gisforthought.com/uk-postcode-format-breakdown/">UK Postcode Format Breakdown/</a></p>
+<p>This is just a note of the RegEX strings to extract these, which can be used in QGIS, or PostgreSQL. These are a bit complex for most datasets, but should work independent on whether spaces and how many were used between the in and out codes. Should also work for London postcodes.</p>
+<p><strong>Area: G</strong><br />
+RegEX: <code>^[a-zA-Z][a-zA-Z]?</code><br />
+PostgreSQL: <code>substring(postcode, '^[a-zA-Z][a-zA-Z]?')</code><br />
+QGIS: <code>regexp_substr("postcode" , '(^[a-zA-Z][a-zA-Z]?)')</code></p>
+<p>[caption id="attachment_833" align="aligncenter" width="956"]<img class="size-full wp-image-833" src="http://gisforthought.com/wp-content/uploads/2017/11/CropperCapture52.png" alt="UK Postcode Area" width="956" height="223"/> UK Postcode Area[/caption]</p>
+<p><strong>District: G12</strong><br />
+RegEX: <code>^[a-zA-Z]+\d\d?[a-zA-Z]?</code><br />
+PostgreSQL: <code>substring(postcode, '^[a-zA-Z]+\d\d?[a-zA-Z]?')</code><br />
+QGIS: <code>regexp_substr("postcode" , '(^[a-zA-Z]+\\d\\d?[a-zA-Z]?)')</code></p>
+<p>[caption id="attachment_834" align="aligncenter" width="956"]<img class="size-full wp-image-834" src="http://gisforthought.com/wp-content/uploads/2017/11/CropperCapture53.png" alt="UK Postcode District" width="956" height="223"/> UK Postcode District[/caption]</p>
+<p><strong>Sector: G12 8</strong><br />
+RegEX: <code>^[a-zA-Z]+\d\d?[a-zA-Z]?\s*\d+</code><br />
+PostgreSQL: <code>substring(postcode, '^[a-zA-Z]+\d\d?[a-zA-Z]?\s*\d+')</code><br />
+QGIS: <code>regexp_substr("postcode" , '(^[a-zA-Z]+\\d\\d?[a-zA-Z]?\\s*\\d+)')</code></p>
+<p>[caption id="attachment_835" align="aligncenter" width="956"]<img class="size-full wp-image-835" src="http://gisforthought.com/wp-content/uploads/2017/11/CropperCapture54.png" alt="UK Postcode Sector" width="956" height="223"/> UK Postcode Sector[/caption]</p>
+<p><strong>Unit: G12 8QH</strong><br />
+postcode...</p>
+<p>I'll let you figure this one out.</p>

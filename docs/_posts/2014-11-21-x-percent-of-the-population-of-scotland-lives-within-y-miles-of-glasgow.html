@@ -1,0 +1,38 @@
+---
+layout: post
+status: publish
+published: true
+title: X Percent of the Population of Scotland Lives Within Y Miles of Glasgow
+author: Heikki Vesanto
+permalink: /x-percent-of-the-population-of-scotland-lives-within-y-miles-of-glasgow/
+date: '2014-11-21 12:00:13 +0000'
+date_gmt: '2014-11-21 12:00:13 +0000'
+comments:
+- id: 43
+  author: X Percent of the Population of Scotland Lives Within Y Miles of Edinburgh
+    | GIS for Thought
+  author_email: ''
+  author_url: http://gisforthought.com/x-percent-of-the-population-of-scotland-lives-within-y-miles-of-edinburgh/
+  date: '2014-12-19 08:05:09 +0000'
+  date_gmt: '2014-12-19 08:05:09 +0000'
+  content: "[&#8230;] up from the Glasgow post by [&#8230;]"
+---
+<p>I have often heard that X percent of the population Scotland live within Y miles of Glasgow. With the X and the Y varying between claimant.</p>
+<p>This is a pretty easy question to answer, using the 2011 Scottish Census population results and the Census Output Area Population Weighted Centroids. Then we get the extents of Glasgow City Council from OS Boundary Line.</p>
+<p>The results are:<br />
+[table]<br />
+[attr sort="false"],Pop. Count:,%<br />
+Scotland,	5295403,	100<br />
+Glasgow,	593245,	11.2<br />
+25 km,	2002431,	37.8<br />
+50 km,	2839583,	53.6<br />
+50 miles,	3776701,	71.3<br />
+100 km,	4201860,	79.3<br />
+100 miles,	4483330,	84.7<br />
+[/table]<br />
+Pretty interesting results, especially the within 50 miles query.</p>
+<p>To see how these boundaries look on a map:</p>
+<p><a title="Population buffers around Glasgow by Heikki Vesanto, on Flickr" href="https://farm8.staticflickr.com/7497/15186563674_2c97a5d8f1_o.png"><img src="https://farm8.staticflickr.com/7497/15186563674_2c97a5d8f1_o.png" alt="Population buffers around Glasgow" /></a></p>
+<p>A few caveats:<br />
+We are using the population weighted centroids, which will produce some minor inaccuracies, but is a very good generalisation.<br />
+Also we are using euclidean buffers on the British National Grid plain, so these are not geodesic buffers. The difference will likely be small at these distances.</p>

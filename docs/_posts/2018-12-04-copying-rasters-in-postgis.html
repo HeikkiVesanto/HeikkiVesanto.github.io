@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: Copying Rasters in PostGIS
+author: Heikki Vesanto
+permalink: /copying-rasters-in-postgis/
+date: '2018-12-04 09:00:34 +0000'
+date_gmt: '2018-12-04 09:00:34 +0000'
+comments: []
+---
+<p>I ran into a process where I wanted to create copies of rasters in PostgreSQL. While seemingly a simple process this took me a bit of work to figure out.</p>
+<p>For my workflow I had three rasters, which all have the same size, and I want to load them into the same PostGIS table with three raster geometry columns. I don't think this will work for different sized rasters since the rid's will not match.</p>
+<p>Three rasters:<br />
+<code>raster1<br />
+raster2<br />
+raster3</code></p>
+<p>Which I want to copy into:<br />
+<code>merged_raster</code></p>
+<p>First to create the merged raster table:</p>
+<pre class="lang:pgsql decode:true " >CREATE TABLE merged_raster
+(
+  rid serial NOT NULL,
+  raster1 raster,
+  raster2 raster,
+  raster3 raster
+);</pre>
+<p>Then to add the rid's. These are the id's of the tiles that the raster was split into when loading. If your tile size is large enough then you may only have one.</p>
+<pre class="lang:pgsql decode:true " >INSERT INTO merged_raster(rid)
+(SELECT rid FROM raster1);</pre>
+<p>Then copying the actual data is straighforward (this assumes the raster column in the raster1 datasets is called rast):</p>
+<pre class="lang:pgsql decode:true " >UPDATE merged_raster m
+SET raster1 = r.rast
+FROM raster1 r
+WHERE r.rid = m.rid;
+
+UPDATE merged_raster m
+SET raster2 = r.rast
+FROM raster2 r
+WHERE r.rid = m.rid;
+
+UPDATE merged_raster m
+SET raster3 = r.rast
+FROM raster3 r
+WHERE r.rid = m.rid;</pre>
+<p>Now I still have an issue that QGIS will not load these layers. It will always load the initial raster column no matter what is chosen.</p>

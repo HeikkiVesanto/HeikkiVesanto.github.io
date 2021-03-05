@@ -1,0 +1,20 @@
+---
+layout: post
+status: publish
+published: true
+title: UK Rail Network by Agency and Parent
+author: Heikki Vesanto
+permalink: /uk-rail-map/
+date: '2015-10-02 08:00:35 +0100'
+date_gmt: '2015-10-02 07:00:35 +0100'
+---
+<p>I created a post of the <a href="http://gisforthought.com/uk-rail-network-visualized-by-operator/">UK rail network</a> some time ago and have been meaning to return to the subject.</p>
+<p>This iteration is in Leaflet and will run weekly. The network is generated direcly from the UK rail network timetable file in GTFS format downloaded from: <a href="http://www.gbrail.info/">gbrail.info</a></p>
+<p>The network is still generated using a station to station methodology, so the next step will be to incorporate an actual network and run it trough PGRouting. The logic for ownership can be found at: <a href="https://maps.gisforthought.com/uk_rail_map/ukrail_distinct_agencies_parent.html">maps.gisforthought.com/uk_rail_map/ukrail_distinct_agencies_parent.html</a></p>
+<p>If there are any issues or inconsistencies, please let me know, preferrably through the GitHub issues page: <a href="https://github.com/HeikkiVesanto/UK_Rail_Map/issues">GitHub Issues</a></p>
+<p>I am very happy with the overall result and all the hosting is done from scratch using a virtual server from: <a href="https://www.digitalocean.com/?refcode=f67c2dabcf79">Digital Ocean</a></p>
+<p>A good learning experience with NGINX and mobile forwarding.</p>
+<p>As a final warning, the mobile version is not very good, if viewing on mobile and interested, please try on a desktop. Sincere appologies for that. Leaflet may not be the best mobile platform, although it is probably due to my inexperience with it.</p>
+<p><a href="https://maps.gisforthought.com/uk_rail_map/">Full Page Link</a></p>
+<p>UK Rail Map by Operator and Owner:<br />
+[iframe src="https://maps.gisforthought.com/uk_rail_map/" width="100%" height="600"]</p>

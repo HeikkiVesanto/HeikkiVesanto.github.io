@@ -1,0 +1,17 @@
+---
+layout: post
+status: publish
+published: true
+title: Clipping Datasets to the Dateline in ogr2ogr
+author: Heikki Vesanto
+permalink: /clipping-datasets-to-the-dateline-in-ogr2ogr/
+date: '2014-11-27 12:00:33 +0000'
+date_gmt: '2014-11-27 12:00:33 +0000'
+comments: []
+---
+<p>If you want to visualise a global flight great circle dataset in QGIS it needs to be clipped to the dateline.</p>
+<p>This is extremely easy to do using ogr2ogr.</p>
+<p>The command is simply:</p>
+<pre class="lang:sh decode:true " >ogr2ogr -wrapdateline output_file.shp input_file.shp</pre>
+<p>With the results.</p>
+<p><a href="https://farm9.staticflickr.com/8579/15256824154_fd532a3d37_o.png" title="Dateline wrapping by Heikki Vesanto, on Flickr"><img src="https://farm9.staticflickr.com/8579/15256824154_fd532a3d37_o.png" alt="Dateline wrapping"/></a></p>

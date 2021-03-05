@@ -1,0 +1,228 @@
+---
+layout: post
+status: publish
+published: true
+title: Loading CSV XY Data into PostGIS, with Code-Point Open
+author: Heikki Vesanto
+permalink: /loading-csv-xy-data-into-postgis-with-codepoint-open/
+date: '2014-03-03 12:00:46 +0000'
+date_gmt: '2014-03-03 12:00:46 +0000'
+comments: []
+---
+<p>Now that we have <a title="Downloading OpenData" href="http://www.gisforthought.com/downloading-os-opendata-gis-in-bulk/">downloaded some OS OpenData</a>, we can look into working with it.</p>
+<p>Loading .csv data into PostGIS was surprisingly difficult, but can be done in a number of ways. This post will cover doing it using a .vrt (virtual raster) file.</p>
+<p>In this example we are using Ordnance Survey and ultimately Royal Mail: Code-Point Open data. This can be found from OpenData and is a CSV point file for UK postcodes.</p>
+<p>First we need to modify the header file provided with Code-Point:</p>
+<p><a title="Screenshot from 2013-10-09 20:21:32" href="http://farm6.staticflickr.com/5488/12779749483_f6f141e4e8_o.png" rel=""><img title="Screenshot from 2013-10-09 20:21:32" alt="Screenshot from 2013-10-09 20:21:32" src="http://farm6.staticflickr.com/5488/12779749483_4473eaf58a_z.jpg" width="640" height="536" /></a></p>
+<p>I have deleted the short codes and replaced them with sensible headers. You should only have one line in your header file.</p>
+<p>Firstly the files are provided split up into a number of different files. We can combine all of the .csv files using the cat command in Linux.</p>
+<pre class="lang:sh decode:true">cat *.csv > codepoint.csv</pre>
+<p>So this will combine all of the individual .csv files into the codepoint.csv file. Your header file should be the top line.</p>
+<p>So now we can look at the data using ogrinfo, part of the gdal suite.</p>
+<p>We create a virtual raster definition file with our X and Y columns, and projection defined:</p>
+<pre class="lang:sh decode:true" title="codepoint.vrt"><OGRVRTDataSource> 
+    <OGRVRTLayer name="codepoint"> 
+        <SrcDataSource>codepoint.csv</SrcDataSource> 
+        <GeometryType>wkbPoint</GeometryType> 
+        <LayerSRS>EPSG:27700</LayerSRS> 
+        <GeometryField encoding="PointFromColumns" x="Eastings" y="Northings"/> 
+    </OGRVRTLayer> 
+</OGRVRTDataSource></pre>
+<p>So now we can run "ogrinfo" on codepoint.vrt:</p>
+<pre class="lang:sh decode:true">ogrinfo -ro -al -so codepoint.vrt</pre>
+<p>Result:</p>
+<p><a title="Screenshot from 2013-10-09 21:25:42" href="http://farm8.staticflickr.com/7397/12779748113_c6b9480c21_o.png" rel=""><img title="Screenshot from 2013-10-09 21:25:42" alt="Screenshot from 2013-10-09 21:25:42" src="http://farm8.staticflickr.com/7397/12779748113_e0ea09f43f_c.jpg" width="800" height="566" /></a></p>
+<p>So we can see that there was an error opening the codepoint.csv file itself but the .vrt worked fine. This is probably down to a memory issue on my part. So your mileage may vary. I tried again with just one postcode area and it worked fine (ab postcode area .csv was named codepoint.csv):</p>
+<p><a title="Screenshot from 2013-10-09 21:24:35" href="http://farm8.staticflickr.com/7350/12779621405_c229de088b_o.png" rel=""><img title="Screenshot from 2013-10-09 21:24:35" alt="Screenshot from 2013-10-09 21:24:35" src="http://farm8.staticflickr.com/7350/12779621405_259236dca1_m.jpg" width="240" height="212" /></a></p>
+<p>So I need to find a more memory friendly way to do this. So I will load the postcode files one at a time, appending them to any data that is already loaded.</p>
+<p>So first I need to add the header row to the top of each file.&nbsp;The cat command worked really well last time so lets try that.</p>
+<p>Rename the header file to .txt. So it will be called&nbsp;Code-Point_Open_Column_Headers.txt and consists of only one row with our desired column headers.</p>
+<p>Write a bash script that adds the header file to the beginning of each .csv file:</p>
+<pre class="lang:sh decode:true" title="cat_command.sh">#!/bin/bash 
+# vesanto 
+################################## 
+echo " ******************************* " 
+echo " Add a header to codepoint" 
+echo " ******************************* " 
+for codepointFiles in *.csv 
+do 
+Echo $codepointFiles 
+cat Code-Point_Open_Column_Headers.txt >> $codepointFiles.csv 
+cat $codepointFiles >> $codepointFiles.csv 
+echo "Done" 
+done</pre>
+<p><span style="font-size: 1rem;">Run the file:</span></p>
+<pre class="lang:sh decode:true">Bash cat_command.sh</pre>
+<p><span style="line-height: 1.714285714; font-size: 1rem;">Delete all of the .csv file (not the .csv.csv files!)</span></p>
+<p>And we rename .csv.csv to .csv:</p>
+<pre class="lang:sh decode:true">for i in *.csv.csv; do mv "$i" "${i/.csv.csv}".csv; done</pre>
+<p>Then we can create the .vrt files for each csv file:</p>
+<p><span style="font-size: 1rem; line-height: 1.714285714;">So we want to create the&nbsp;</span>equivalent<span style="font-size: 1rem; line-height: 1.714285714;">&nbsp;of for each csv file:</span></p>
+<pre class="lang:sh decode:true"><OGRVRTDataSource>&nbsp;
+&nbsp; &nbsp; <OGRVRTLayer name="codepoint">&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; <SrcDataSource>codepoint.csv</SrcDataSource>&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; <GeometryType>wkbPoint</GeometryType>&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; <LayerSRS>EPSG:27700</LayerSRS>&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; <GeometryField encoding="PointFromColumns" x="Eastings" y="Northings"/>&nbsp;
+&nbsp; &nbsp; </OGRVRTLayer>&nbsp;
+</OGRVRTDataSource></pre>
+<p>So we can do this using another bash script:</p>
+<pre class="lang:sh decode:true" title="create_vrt.sh">#!/bin/bash
+# vesanto
+##################################
+echo " ******************************* "
+echo " Create OGR .vrt file"
+echo " ******************************* "
+
+for codepointFiles in *.csv
+do
+echo $codepointFiles
+
+fileN=$codepointFiles
+layerName=${fileN%????}
+
+echo '<OGRVRTDataSource>' >> $codepointFiles.vrt
+echo '    <OGRVRTLayer name="'$layerName'">' >> $codepointFiles.vrt
+echo '        <SrcDataSource>'$codepointFiles'</SrcDataSource>' >> $codepointFiles.vrt
+echo '        <GeometryType>wkbPoint</GeometryType>' >> $codepointFiles.vrt
+echo '        <LayerSRS>EPSG:27700</LayerSRS>' >> $codepointFiles.vrt
+echo '        <GeometryField encoding="PointFromColumns" x="Eastings" y="Northings"/>' >> $codepointFiles.vrt
+echo '    </OGRVRTLayer>' >> $codepointFiles.vrt
+echo '</OGRVRTDataSource>' >> $codepointFiles.vrt
+
+echo "Done"
+
+done</pre>
+<p>And finally we can load the files using a final bash script (this could be done by looping through the files as well):</p>
+<pre class="height:600 lang:sh decode:true">ogr2ogr -nlt PROMOTE_TO_MULTI -progress -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost' port='5432'  user='postgres' password='postgres'" ab.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" al.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ba.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" bb.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" bd.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" bh.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" bl.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" bn.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" br.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" bs.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" b.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ca.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" cb.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" cf.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ch.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" cm.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" co.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" cr.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ct.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" cv.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" cw.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" da.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" dd.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" de.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" dg.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" dh.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" dl.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" dn.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" dt.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" dy.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ec.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" eh.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" en.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" e.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ex.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" fk.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" fy.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" gl.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" gu.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" g.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ha.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" hd.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" hg.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" hp.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" hr.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" hs.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" hu.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" hx.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ig.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ip.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" iv.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ka.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" kt.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" kw.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ky.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" la.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ld.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" le.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ll.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ln.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ls.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" lu.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" l.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" me.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" mk.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ml.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" m.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ne.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ng.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" nn.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" np.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" nr.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" n.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" nw.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ol.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ox.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" pa.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" pe.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ph.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" pl.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" po.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" pr.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" rg.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" rh.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" rm.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" sa.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" se.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" sg.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" sk.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" sl.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" sm.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" sn.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" so.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" sp.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" sr.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ss.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" st.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" s.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" sw.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" sy.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ta.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" td.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" tf.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" tn.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" tq.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" tr.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ts.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" tw.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ub.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" wa.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" wc.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" wd.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" wf.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" wn.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" wr.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ws.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" w.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" wv.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" yo.vrt
+ogr2ogr -nlt PROMOTE_TO_MULTI -progress -update -append -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost'  port='5432' user='postgres' password='postgres'" ze.vrt</pre>
+<p>So the ogr2ogr command is:</p>
+<p>ogr2ogr -nlt PROMOTE_TO_MULTI -progress -nln codepoint -skipfailures -lco PRECISION=no -f PostgreSQL PG:"dbname='os_open' host='localhost' port='5432' user='os_open' password='os_open'" source_file</p>
+<p>Explained:</p>
+<p>-nlt | PROMOTE_TO_MULTI, creates it as a multipart geometry, not important for points</p>
+<p>-progress | Shows a progress bar</p>
+<p>-nln codepoint | The name of the layer in the database, so because we are appending data to the first csv file loaded this is important.</p>
+<p>-skipfailures -lco PRECISION=no | Personal preference</p>
+<p>-f PostgreSQL PG:"dbname='os_open' host='localhost' port='5432' user='os_open' password='os_open'" | Destination, so the details of your PostGIS database (see <a title="Setting up PostgreSQL and PostGIS on Linux Mint" href="http://gisforthought.com/setting-up-postgresql-and-postgis-on-linux-mint/">setting up PostGIS</a> for help).</p>
+<p>The latter commands also have the -append tag, which means they will be appended to the first one loaded.</p>
+<p>Excellent. Though this was a bit intensive. Doing this in QGIS would have been a lot easier. However this can now be scripted and automatically run just by replacing the original .csv input files allowing for an easy update of the data when a new Cope-Point dataset is released.</p>
+<p>Sources:</p>
+<p><a href="http://www.debian-administration.org/articles/150">http://www.debian-administration.org/articles/150</a></p>

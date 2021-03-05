@@ -1,0 +1,26 @@
+---
+layout: post
+status: publish
+published: true
+title: Ireland and Dublin Street Orientations
+author: Heikki Vesanto
+permalink: /ireland-and-dublin-street-orientations/
+date: '2018-07-26 09:00:31 +0100'
+date_gmt: '2018-07-26 08:00:31 +0100'
+comments: []
+---
+<p>Based on the work by:</p>
+<p>Geoff Boeing: <a href="https://geoffboeing.com/2018/07/comparing-city-street-orientations/">Comparing City Street Orientations</a></p>
+<p>Rixx: <a href="https://rixx.de/blog/street-orientantions/">Street Orientations</a></p>
+<p>The graphs show the percentage of streets that run in a certain orientation. So for a grid based city like Chicago, there will be a heavy bias in north/south and east/west streets. Bearing in mind north and south will be the same (unless there are one-way streets, which only count in the direction they run in).</p>
+<p>But for older cities that formed naturally, without modern city planning, the streets should be more varied.</p>
+<p><strong>Ireland:</strong></p>
+<p>Largest populated places by population. Based on the <a href="https://data.gov.ie/dataset/settlements-ungeneralised-osi-national-statistical-boundaries">Ordnance Survey Ireland urban areas</a>. As it is OSI data, Northern Ireland is not included.</p>
+<p><img src="https://i.imgur.com/7efqRot.png" alt="" width="625" height="631" class="aligncenter size-large wp-image-994" /></p>
+<p><strong>Dublin Postcodes:</strong></p>
+<p>Some areas are clearly impacted by large motorways running through them.</p>
+<p><img src="https://i.imgur.com/dYRvbpF.png" alt="" width="625" height="630" class="aligncenter size-large wp-image-992" /></p>
+<p>And for non-Dubliners, a map of the postal district boundaries:</p>
+<p><img src="https://gisforthought.com/wp-content/uploads/2018/07/Dublin_PC_Map.png" alt="" width="934" height="730" class="aligncenter size-full wp-image-993" /></p>
+<p>I updated the script by Rixx, so that it would take a ShapeFile as an input with a few caveats (it must be WGS84, it must have an attribute that has the are name and it must be called settl_name).</p>
+<p>Check out the script at: <a href="https://github.com/HeikkiVesanto/city-street-orientations">GitHub</a></p>

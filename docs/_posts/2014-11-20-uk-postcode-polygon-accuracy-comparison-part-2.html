@@ -1,0 +1,33 @@
+---
+layout: post
+status: publish
+published: true
+title: UK Postcode Polygon Accuracy Comparison Part 2
+author: Heikki Vesanto
+permalink: /uk-postcode-polygon-accuracy-comparison-part-2/
+date: '2014-11-20 12:00:32 +0000'
+date_gmt: '2014-11-20 12:00:32 +0000'
+---
+<p>So we have seen from the previous comparing the raw polygon accuracy between Voronoi generated polygons and NRS generated postcode polygons: <a href="http://gisforthought.com/uk-postcode-polygon-accuracy-comparison/" title="Results">Results</a>.</p>
+<p>The physical results are interesting, and a visual examination can provide a useful overall comparison, but how does this actually impact me?</p>
+<p>I have a CAG from GCC and I just want to attach a postcode to it. How different will my results be between a true postcode boundary dataset from the NRS, and a generated Voronoi dataset from the OS?</p>
+<p>I'm glad you are still with me, it might be useful to explain how postcodes actually work in this context:</p>
+<p>Lets take a postcode of G31 2XT how does it break down?<br />
+Area: G<br />
+District: G31<br />
+Sector: G31 2<br />
+Unit: G31 2XT</p>
+<p>So then we can compare how an actual address dataset, like the Glasgow CAG, spatially joined to two postcode datasets compare:</p>
+<p>Assuming the NRS dataset is correct (a good assumption) how accurate is a postcode based on an OS Code-Point Open generated Voronoi polygon based on Glasgow City Council residentially classified properties as of 16/11/2014:</p>
+<p><strong>Total number of properties:</strong><br />
+245096 &nbsp; &nbsp; 100%<br />
+<strong>Correct Area:</strong><br />
+245096 &nbsp; &nbsp; 100%<br />
+<strong>Correct District</strong><br />
+243650 &nbsp; &nbsp; 99.4%<br />
+<strong>Correct Sector</strong><br />
+240956 &nbsp; &nbsp; 98.3%<br />
+<strong>Correct Unit</strong><br />
+174344 &nbsp; &nbsp; 71.1%</p>
+<p>We can see that up to a sector level a Voronoi polygon can produce an extremely accurate results. A visual comparison of how this plays out in Glasgow can be seen here, with the legend best read from the bottom:</p>
+<p><a href="https://farm6.staticflickr.com/5608/15186580834_97b76ecc3f_o.png" title="UK Postcode Comparison by Heikki Vesanto, on Flickr"><img src="https://farm6.staticflickr.com/5608/15186580834_97b76ecc3f_o.png" alt="UK Postcode Comparison"/></a></p>

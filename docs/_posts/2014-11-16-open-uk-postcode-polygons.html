@@ -1,0 +1,30 @@
+---
+layout: post
+status: publish
+published: true
+title: Open UK Postcode Polygons
+author: Heikki Vesanto
+permalink: /open-uk-postcode-polygons/
+date: '2014-11-16 12:00:47 +0000'
+date_gmt: '2014-11-16 12:00:47 +0000'
+comments:
+- id: 33
+  author: Population of Scotland Mapped | GIS for Thought
+  author_email: ''
+  author_url: http://gisforthought.com/population-of-scotland-mapped/
+  date: '2014-11-23 01:19:59 +0000'
+  date_gmt: '2014-11-23 01:19:59 +0000'
+  content: "[&#8230;] easier approach would have been to use the NRS supplied postcode
+    areas for Scotland mentioned in previous posts. A better display of this data
+    would be through a web mapping environment, which is working on my [&#8230;]"
+---
+<p>The Ordnance Survey releases Code-Point Open, which contains the centroid coordinates for each postcode in the UK. One way to generate open postcode polygons is to generate a Voronoi diagram from those points.</p>
+<p>The results initially look good, but how accurate are these generated polygons compared with actual postcode polygons.</p>
+<p>Luckily the National Records of Scotland (NRS) also maintain a postcode dataset, which is released on their website for free. So we can do an easy comparison of the two postcode datasets, which should be an indication of how accurate Voronoi postcode areas would be across the UK.</p>
+<p>I have decided to use Glasgow for the comparison because we also have the Corporate Address Gazetteer, which will allow us to compare not just the actual polygons, but actual properties. It does not really matter if the postcode polygon is incorrect, if all of the properties within that postcode would still be correct.</p>
+<p>Fist we have a simple side by side look at the two datasets we will compare:</p>
+<p><a href="https://farm8.staticflickr.com/7577/15598446878_e7ab769be8_o.png" title="Glasgow Postcodes by Heikki Vesanto, on Flickr"><img src="https://farm8.staticflickr.com/7577/15598446878_e7ab769be8_o.png" alt="Glasgow Postcodes"/></a></p>
+<p>And a closeup overlay:</p>
+<p><a href="https://farm6.staticflickr.com/5604/15599048200_307338935f_o.png" title="Zoomed in by Heikki Vesanto, on Flickr"><img src="https://farm6.staticflickr.com/5604/15599048200_307338935f_o.png" alt="Zoomed in"/></a></p>
+<p>The Voronoi one has been created from Code-Point Open points that fell within the Glasgow City Council Unitary Authority and the output Voronoi was clipped to the extent of the Unitary Authority.</p>
+<p>The NRS created postcodes were simply selected from the ones where their "Point on Surface" fell within the Unitary Authority. The process will detailed in a later post.</p>
