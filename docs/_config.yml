@@ -38,7 +38,7 @@ kramdown:
   syntax_highlighter: rouge
 
 # Build settings
-theme: jekyll-theme-minimal
+theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
 
