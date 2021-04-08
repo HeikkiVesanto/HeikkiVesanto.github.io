@@ -25,6 +25,8 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://gisforthought.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: HeikkiVesanto
 github_username:  HeikkiVesanto
+show_downloads: false
+google_analytics: UA-41533238-3
 
 lsi: false
 safe: true
