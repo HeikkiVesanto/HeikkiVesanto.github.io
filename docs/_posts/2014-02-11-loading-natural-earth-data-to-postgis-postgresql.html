@@ -18,10 +18,11 @@ comments: []
 <p>To begin:</p>
 <pre class="lang:sh decode:true">ls > my_contents.txt</pre>
 <p style="text-align: left;">Produced a decent result, but not quite what I was looking for.</p>
-<pre class="lang:sh decode:true">sudo apt-get install tree
+<pre class="lang:sh decode:true">sudo apt-get install tree
+
 tree > natural_earth.txt</pre>
 <p>Was much better, although with a bit more tuning I'm sure ls would have achieved a better result.</p>
-<p><a title="tree" href="http://farm4.staticflickr.com/3671/12446304573_6b437704a9_o.png" rel=""><img title="tree" alt="tree" src="http://farm4.staticflickr.com/3671/12446304573_3df2fcb048.jpg" width="500" height="426" /></a></p>
+<p><a title="tree" href="https://gisforthought.com/media/2014-02-11_12446304573_6b437704a9_o.png" rel=""><img title="tree" alt="tree" src="https://gisforthought.com/media/2014-02-11_12446304573_3df2fcb048.jpg" width="500" height="426" /></a></p>
 <p>After a bit of work in the spreadsheet, I had what I wanted. Perhaps not the most elegant solution, but certainly enough for my purposes.</p>
 <p>Now for the ogr2ogr command:</p>
 <pre class="lang:sh decode:true">ogr2ogr -nlt PROMOTE_TO_MULTI -progress -skipfailures -overwrite -lco PRECISION=no -f PostgreSQL PG:"dbname='natural_earth' host='localhost' port='5432' user='natural_earth' password='natural_earth'" 10m_cultural/ne_10m_admin_0_antarctic_claim_limit_lines.shp</pre>

@@ -92,20 +92,20 @@ Layer (String) = Building - Outline</pre>
 <p>So we do not have any geometry. Lets bring that in.</p>
 <pre class="lang:sh decode:true ">ogr2ogr -f DXF TopographicLine.dxf os-mastermap-topography-layer-sample-data.gml TopographicLine -sql "select descriptiveGroup || ' - ' || descriptiveTerm as Layer, * from TopographicLine" -dialect SQLITE</pre>
 <p>Geometry looks good:</p>
-<p><a title="Screenshot[6]" href="https://farm6.staticflickr.com/5816/21988887960_6438c3ffd0_o.png" data-flickr-embed="true"><img src="https://farm6.staticflickr.com/5816/21988887960_6438c3ffd0_o.png" alt="Screenshot[6]"/></a></p>
+<p><a title="Screenshot[6]" href="https://gisforthought.com/media/2015-10-26_2015-10-26_21988887960_6438c3ffd0_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-10-26_2015-10-26_21988887960_6438c3ffd0_o.png" alt="Screenshot[6]"/></a></p>
 <p>But if we check the attributes in QGIS:</p>
-<p><a title="Screenshot[7]" href="https://farm1.staticflickr.com/670/22187246431_913c5a2bcd_o.png" data-flickr-embed="true"><img src="https://farm1.staticflickr.com/670/22187246431_913c5a2bcd_o.png" alt="Screenshot[7]"/></a></p>
+<p><a title="Screenshot[7]" href="https://gisforthought.com/media/2015-10-26_2015-10-26_22187246431_913c5a2bcd_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-10-26_2015-10-26_22187246431_913c5a2bcd_o.png" alt="Screenshot[7]"/></a></p>
 <p>We can see that all of the attributes that are not 0 have both a descriptiveGroup and a descriptiveTerm, which was not what we can see in the ogrinfo summary. So our SQL statement is cutting some out.</p>
 <p>Try again:</p>
 <pre class="lang:sh decode:true ">ogr2ogr -f DXF TopographicLine2.dxf os-mastermap-topography-layer-sample-data.gml TopographicLine -sql "select descriptiveGroup ||' - '|| coalesce(descriptiveTerm,'') as Layer, * from TopographicLine" -dialect SQLITE</pre>
 <p>Looking better:</p>
-<p><a title="Screenshot[8]" href="https://farm6.staticflickr.com/5658/22176969335_cb9708a622_o.png" data-flickr-embed="true"><img src="https://farm6.staticflickr.com/5658/22176969335_cb9708a622_o.png" alt="Screenshot[8]"/></a></p>
+<p><a title="Screenshot[8]" href="https://gisforthought.com/media/2015-10-26_2015-10-26_22176969335_cb9708a622_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-10-26_2015-10-26_22176969335_cb9708a622_o.png" alt="Screenshot[8]"/></a></p>
 <p>But it won't open in AutoCAD DWG TrueView. Lets try running it through a ShapeFile format first before the DXF conversion.</p>
 <pre class="lang:sh decode:true ">ogr2ogr TopographicLine.shp os-mastermap-topography-layer-sample-data.gml TopographicLine -sql "select descriptiveGroup || ' - ' || coalesce(descriptiveTerm,'') as Layer, * from TopographicLine" -dialect SQLITE
 
 ogr2ogr -f DXF TopographicLine3.dxf TopographicLine.shp</pre>
 <p>Success:</p>
-<p><a title="Screenshot[9]" href="https://farm6.staticflickr.com/5722/21554205754_5a38c19a4b_o.png" data-flickr-embed="true"><img src="https://farm6.staticflickr.com/5722/21554205754_5a38c19a4b_o.png" alt="Screenshot[9]"/></a></p>
+<p><a title="Screenshot[9]" href="https://gisforthought.com/media/2015-10-26_2015-10-26_21554205754_5a38c19a4b_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-10-26_2015-10-26_21554205754_5a38c19a4b_o.png" alt="Screenshot[9]"/></a></p>
 <p>No indication of why a direct GML to DXF conversion would hang TrueView, and your mileage with other CAD software may vary. But ShapeFile is a very simplified geometry format, so perhaps running through that helps with some more complex geometry in the GML. Hard to say with no errors from TrueView, just a stuck program.</p>
 <p>Repeat for point:</p>
 <pre class="lang:sh decode:true">ogr2ogr -f DXF TopographicPoint.dxf TopographicPoint.shp

@@ -49,9 +49,9 @@ POINT (290875.38 92635.81)</pre>
 <p>So for this we are primarily interested in &ldquo;textString&rdquo; and potentially &ldquo;orientation&rdquo;.</p>
 <p>Lets see the layer as points first as a baseline:</p>
 <pre class="lang:sh decode:true ">ogr2ogr -f DXF CartographicText.dxf os-mastermap-topography-layer-sample-data.gml CartographicText</pre>
-<p><a title="Screenshot[10]" href="https://farm6.staticflickr.com/5795/21555945593_de453d5cf4_o.png" data-flickr-embed="true"><img src="https://farm6.staticflickr.com/5795/21555945593_de453d5cf4_o.png" alt="Screenshot[10]"/></a></p>
+<p><a title="Screenshot[10]" href="https://gisforthought.com/media/2015-11-02_2015-11-02_21555945593_de453d5cf4_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-11-02_2015-11-02_21555945593_de453d5cf4_o.png" alt="Screenshot[10]"/></a></p>
 <p>Zoomed in:</p>
-<p><a href="https://farm1.staticflickr.com/721/21988887020_9499dc8d12_o.png" data-flickr-embed="true"><img src="https://farm1.staticflickr.com/721/21988887020_9499dc8d12_o.png" alt="Screenshot[11]"/></a></p>
+<p><a href="https://gisforthought.com/media/2015-11-02_2015-11-02_21988887020_9499dc8d12_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-11-02_2015-11-02_21988887020_9499dc8d12_o.png" alt="Screenshot[11]"/></a></p>
 <p>But&nbsp;lets try that as text. We will keep this simple and only take into account orientation and to a small extent height. Lets look at orientation:</p>
 <p><em>Orientation</em> - The orientation of text or symbol features for cartographic placement. This is measured in tenths of a degree anticlockwise from due east (0&ndash;3599).</p>
 <p>So conversion to degree will be simple. Orientation/10</p>
@@ -60,9 +60,9 @@ POINT (290875.38 92635.81)</pre>
 <p>The command:</p>
 <pre class="lang:sh decode:true ">ogr2ogr.exe -f DXF CartographicText2.dxf os-mastermap-topography-layer-sample-data.gml CartographicText -sql "SELECT 'LABEL(f:""Arial"",s:""'||(height*800)||'"",t:""'||textString||'"",a:""'||(orientation/10)||'"",p:5)' AS OGR_STYLE, * FROM CartographicText" -dialect SQLITE</pre>
 <p>Full extent:</p>
-<p><a title="Screenshot[12]" href="https://farm6.staticflickr.com/5796/21555945263_f78cdb8915_o.png" data-flickr-embed="true"><img src="https://farm6.staticflickr.com/5796/21555945263_f78cdb8915_o.png" alt="Screenshot[12]"/></a></p>
+<p><a title="Screenshot[12]" href="https://gisforthought.com/media/2015-11-02_2015-11-02_21555945263_f78cdb8915_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-11-02_2015-11-02_21555945263_f78cdb8915_o.png" alt="Screenshot[12]"/></a></p>
 <p>Zoomed in:</p>
-<p><a title="Screenshot[13]" href="https://farm1.staticflickr.com/730/21990117869_f3ba769090_o.png" data-flickr-embed="true"><img src="https://farm1.staticflickr.com/730/21990117869_f3ba769090_o.png" alt="Screenshot[13]"/></a></p>
+<p><a title="Screenshot[13]" href="https://gisforthought.com/media/2015-11-02_2015-11-02_21990117869_f3ba769090_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-11-02_2015-11-02_21990117869_f3ba769090_o.png" alt="Screenshot[13]"/></a></p>
 <p>Explained:</p>
 <p>Since this is run in windows, through the regular console, the escape character for quotes is two quotes ""'. So a combination on ' " and ""' we can accommodate all the required quotes.</p>
 <p><em>f:""Arial"",s:""'||(height*800)||'"",t:""'||textString||'"",a:""'||(orientation/10)||'"",p:5</em></p>

@@ -25,36 +25,54 @@ date_gmt: '2016-03-07 09:00:49 +0000'
 <p>And of course:</p>
 <li>404578811,  404578811</li>
 <p>I have to say these do not translate very well into my current de facto co-ordinate system of British National Grid (0, 404578811 and 404578811, 0 and 404578811, 404578811 not shown).</p>
-<p><a data-flickr-embed="true"  href="https://farm2.staticflickr.com/1527/24321122533_1991c90c7f_o.png" title="BNG_no_good"><img src="https://farm2.staticflickr.com/1527/24321122533_1991c90c7f_o.png" alt="BNG_no_good"/></a></p>
+<p><a data-flickr-embed="true"  href="https://gisforthought.com/media/2016-03-07_2016-03-07_24321122533_1991c90c7f_o.png" title="BNG_no_good"><img src="https://gisforthought.com/media/2016-03-07_2016-03-07_24321122533_1991c90c7f_o.png" alt="BNG_no_good"/></a></p>
 <p>Luckily we can try some alternatives. <a href="https://smathermather.wordpress.com/2014/09/10/null-archipelago-null-islands-for-all-coordinate-reference-systems/">Smathermather</a> had a great post about mapping Null Island/Archipelago, so we can re-use some code. To map our integers to a selection of CRSs.</p>
-<pre class="lang:pgsql decode:true " >CREATE OR REPLACE FUNCTION integer_mapping2(
-    crs integer,
-    x integer,
-    y integer)
-  RETURNS geometry AS
-$BODY$
-DECLARE
-    BODY geometry;
-BEGIN
-SELECT ST_Transform(ST_SetSRID(ST_MakePoint(x,y),crs), 4326) INTO BODY;
-RETURN BODY;
-EXCEPTION
-    WHEN SQLSTATE 'XX000' THEN
-    RETURN NULL;
-END
-$BODY$
+<pre class="lang:pgsql decode:true " >CREATE OR REPLACE FUNCTION integer_mapping2(
+
+    crs integer,
+
+    x integer,
+
+    y integer)
+
+  RETURNS geometry AS
+
+$BODY$
+
+DECLARE
+
+    BODY geometry;
+
+BEGIN
+
+SELECT ST_Transform(ST_SetSRID(ST_MakePoint(x,y),crs), 4326) INTO BODY;
+
+RETURN BODY;
+
+EXCEPTION
+
+    WHEN SQLSTATE 'XX000' THEN
+
+    RETURN NULL;
+
+END
+
+$BODY$
+
   LANGUAGE plpgsql;</pre>
 <p>We use the EXCEPTION, because some of the more awkward co-ordinate combinations cannot be translated back to EPSG:4326 without causeing a SQL error.</p>
 <p>Then we can create our our tables.</p>
-<pre class="lang:pgsql decode:true " >CREATE TABLE my_integer_ AS
-SELECT srid, integer_mapping2(srid, 404578811,404578811) as geom FROM spatial_ref_sys
+<pre class="lang:pgsql decode:true " >CREATE TABLE my_integer_ AS
+
+SELECT srid, integer_mapping2(srid, 404578811,404578811) as geom FROM spatial_ref_sys
+
     WHERE srid > 2000 AND srid < 4904;</pre>
 <p>Replacing 404578811_404578811 as needed.</p>
 <p>Mapped:</p>
-<p><a data-flickr-embed="true"  href="https://farm2.staticflickr.com/1668/24947956855_525651e800_o.png" title="by_co_ord"><img src="https://farm2.staticflickr.com/1668/24947956855_525651e800_o.png" alt="by_co_ord"/></a></p>
+<p><a data-flickr-embed="true"  href="https://gisforthought.com/media/2016-03-07_2016-03-07_24947956855_525651e800_o.png" title="by_co_ord"><img src="https://gisforthought.com/media/2016-03-07_2016-03-07_24947956855_525651e800_o.png" alt="by_co_ord"/></a></p>
 <p>By CRS:</p>
-<p><a data-flickr-embed="true"  href="https://farm2.staticflickr.com/1571/24830000962_797d1af0e2_o.png" title="by_crs"><img src="https://farm2.staticflickr.com/1571/24830000962_797d1af0e2_o.png"  alt="by_crs"/></a></p>
+<p><a data-flickr-embed="true"  href="https://gisforthought.com/media/2016-03-07_2016-03-07_24830000962_797d1af0e2_o.png" title="by_crs"><img src="https://gisforthought.com/media/2016-03-07_2016-03-07_24830000962_797d1af0e2_o.png"  alt="by_crs"/></a></p>
 <p>4,04578811:</p>
-<p><a data-flickr-embed="true"  href="https://farm2.staticflickr.com/1674/24317376464_55b64fa687_o.png" title="4_04578811"><img src="https://farm2.staticflickr.com/1674/24317376464_55b64fa687_o.png" alt="4_04578811"/></a></p>
+<p><a data-flickr-embed="true"  href="https://gisforthought.com/media/2016-03-07_2016-03-07_24317376464_55b64fa687_o.png" title="4_04578811"><img src="https://gisforthought.com/media/2016-03-07_2016-03-07_24317376464_55b64fa687_o.png" alt="4_04578811"/></a></p>
 <p><a href="https://www.flickr.com/photos/115987875@N04/sets/72157664380922721">Album of the rest.</a></p>
 <p>It really shows how fragmented the EPSG codes are for New Zealand, and to a lesser extent the US.</p>

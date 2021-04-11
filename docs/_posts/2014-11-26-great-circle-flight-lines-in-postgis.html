@@ -10,16 +10,19 @@ date_gmt: '2014-11-26 12:00:49 +0000'
 ---
 <p>There is an excellent post by <a title="Great Circles" href="http://anitagraser.com/2011/08/20/visualizing-global-connections/">Anita Graser about creating Great Circles in PostGIS</a>.</p>
 <p>However as of PostGIS version 2.1 this can be done in a different (better) way, using the geography functions.</p>
-<p><a title="PostGIS Great Circles by Heikki Vesanto, on Flickr" href="https://farm8.staticflickr.com/7579/15872020385_689541c6b0_o.png"><img src="https://farm8.staticflickr.com/7579/15872020385_689541c6b0_o.png" alt="PostGIS Great Circles" /></a></p>
+<p><a title="PostGIS Great Circles by Heikki Vesanto, on Flickr" href="https://gisforthought.com/media/2014-11-26_2014-11-26_15872020385_689541c6b0_o.png"><img src="https://gisforthought.com/media/2014-11-26_2014-11-26_15872020385_689541c6b0_o.png" alt="PostGIS Great Circles" /></a></p>
 <p>For more information about geography, see:<br />
 <a href="http://workshops.boundlessgeo.com/postgis-intro/geography.html">Introduction to PostGIS - Geography</a></p>
 <p>This allows us to create the great circles without having to add in a new projection.</p>
 <p>So we first need to create our three tables in PostGIS:</p>
-<pre class="lang:pgsql decode:true ">CREATE TABLE airlines
+<pre class="lang:pgsql decode:true ">CREATE TABLE airlines
+
 (Airline_ID integer,Name varchar,Alias varchar,IATA varchar,ICAO varchar,Callsign varchar,Country varchar,Active varchar, uid Serial);</pre>
-<pre class="lang:pgsql decode:true ">CREATE TABLE routes
+<pre class="lang:pgsql decode:true ">CREATE TABLE routes
+
 (Airline varchar,Airline_ID integer,Source_airport varchar,Source_airport_ID integer,Destination_airport varchar,Destination_airport_ID integer,Codeshare varchar,Stops varchar,Equipment varchar, uid Serial);</pre>
-<pre class="lang:pgsql decode:true ">CREATE TABLE airports
+<pre class="lang:pgsql decode:true ">CREATE TABLE airports
+
 (Airport_ID integer,Name varchar,City varchar,Country varchar,IATA varchar,ICAO varchar,Latitude double precision,Longitude double precision,Altitude double precision,Timezone double precision, dst varchar, tz varchar, uid Serial);</pre>
 <p>The data itself can be found at: <a title="Openflights" href="http://openflights.org/data.html">openflights.org/data.html</a></p>
 <p>We can then load our data through PGAdminIII. You can just right click on a table and select import. Remember to not load the &ldquo;uid&rdquo; column, because it is our primary key which will be populated automatically and not in the original data. You will also want to define it as the primary key.</p>
@@ -30,51 +33,82 @@ date_gmt: '2014-11-26 12:00:49 +0000'
 <p>And create a spatial index.</p>
 <pre class="lang:pgsql decode:true ">CREATE INDEX idx_airports_geom ON airports USING GIST(geom);</pre>
 <p>Then we can create a flights table.</p>
-<pre class="lang:pgsql decode:true ">CREATE TABLE flights AS
-SELECT
-  air1.geom AS source_geom, 
-  air2.geom AS destination_geom, 
-  airlines.name, 
-  routes.equipment, 
-  routes.destination_airport_id, 
-  routes.source_airport_id, 
-  routes.destination_airport, 
-  routes.source_airport
-FROM 
-  public.routes, 
-  public.airlines, 
-  public.airports air1, 
-  public.airports air2 
-WHERE 
-  routes.airline_id = airlines.airline_id AND
-  routes.source_airport_id = air1.airport_id AND
+<pre class="lang:pgsql decode:true ">CREATE TABLE flights AS
+
+SELECT
+
+  air1.geom AS source_geom, 
+
+  air2.geom AS destination_geom, 
+
+  airlines.name, 
+
+  routes.equipment, 
+
+  routes.destination_airport_id, 
+
+  routes.source_airport_id, 
+
+  routes.destination_airport, 
+
+  routes.source_airport
+
+FROM 
+
+  public.routes, 
+
+  public.airlines, 
+
+  public.airports air1, 
+
+  public.airports air2 
+
+WHERE 
+
+  routes.airline_id = airlines.airline_id AND
+
+  routes.source_airport_id = air1.airport_id AND
+
   routes.destination_airport_id = air2.airport_id;</pre>
 <p>This table will have a source geometry and a destination geometry along with a few other attributes. I added a primary key to this table as well.</p>
 <p>To filter out a specific airport, for example Honolulu we use the &ldquo;Airport ID&rdquo;.</p>
-<pre class="lang:pgsql decode:true ">CREATE TABLE honolulu_flights AS
-SELECT * FROM flights
+<pre class="lang:pgsql decode:true ">CREATE TABLE honolulu_flights AS
+
+SELECT * FROM flights
+
 WHERE destination_airport_id = 3728 OR source_airport_id = 3728;</pre>
 <p>Then we add in the actual line geometry column.</p>
 <pre class="lang:pgsql decode:true ">ALTER TABLE honolulu_flights ADD COLUMN line_geom geometry(LineString,4326);</pre>
 <p>And populating the great circle geomtrey:</p>
-<pre class="lang:pgsql decode:true ">UPDATE honolulu_flights
-SET line_geom =  
-  (ST_Segmentize(
-  (ST_MakeLine(source_geom, destination_geom)::geography)
-  ,100000)::geometry)
-;
+<pre class="lang:pgsql decode:true ">UPDATE honolulu_flights
+
+SET line_geom =  
+
+  (ST_Segmentize(
+
+  (ST_MakeLine(source_geom, destination_geom)::geography)
+
+  ,100000)::geometry)
+
+;
+
 </pre>
 <p>This is works great to an extent, but QGIS still has some trouble with lines that cross the date-line.</p>
-<p><a title="Screenshot[32] by Heikki Vesanto, on Flickr" href="https://farm8.staticflickr.com/7480/15686250517_1c0f4e1d12_o.png"><img src="https://farm8.staticflickr.com/7480/15686250517_1c0f4e1d12_o.png" alt="Screenshot[32]" /></a></p>
+<p><a title="Screenshot[32] by Heikki Vesanto, on Flickr" href="https://gisforthought.com/media/2014-11-26_2014-11-26_15686250517_1c0f4e1d12_o.png"><img src="https://gisforthought.com/media/2014-11-26_2014-11-26_15686250517_1c0f4e1d12_o.png" alt="Screenshot[32]" /></a></p>
 <p>We can fix this using a Pacific centered projection like <a href="http://epsg.io/3832">EPSG:3832</a>.</p>
-<p><a title="Screenshot[33] by Heikki Vesanto, on Flickr" href="https://farm9.staticflickr.com/8680/15252361853_5ba0f1ca35_o.png"><img src="https://farm9.staticflickr.com/8680/15252361853_5ba0f1ca35_o.png" alt="Screenshot[33]" /></a></p>
+<p><a title="Screenshot[33] by Heikki Vesanto, on Flickr" href="https://gisforthought.com/media/2014-11-26_2014-11-26_15252361853_5ba0f1ca35_o.png"><img src="https://gisforthought.com/media/2014-11-26_2014-11-26_15252361853_5ba0f1ca35_o.png" alt="Screenshot[33]" /></a></p>
 <p>We can either set QGIS to the projection. Or we can&nbsp;set our geometry to&nbsp;this projection when creating the flight lines.</p>
 <pre class="lang:pgsql decode:true ">ALTER TABLE honolulu_flights ADD COLUMN line_geom geometry(LineString,3832);</pre>
-<pre class="lang:pgsql decode:true ">UPDATE honolulu_flights
-SET line_geom =  
-  ST_Transform((ST_Segmentize(
-  (ST_MakeLine(source_geom, destination_geom)::geography)
-  ,100000)::geometry), 3832)
+<pre class="lang:pgsql decode:true ">UPDATE honolulu_flights
+
+SET line_geom =  
+
+  ST_Transform((ST_Segmentize(
+
+  (ST_MakeLine(source_geom, destination_geom)::geography)
+
+  ,100000)::geometry), 3832)
+
 ;</pre>
 <p>Thanks to:<br />
 <a href="http://twiav-tt.blogspot.co.uk/2012/07/postgis-using-latitude-and-longitude-to.html">The World Is A Village - PostGIS: using latitude and longitude to create geometry</a><br />

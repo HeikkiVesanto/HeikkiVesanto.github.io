@@ -19,7 +19,7 @@ comments:
     Contour Data GIS to CAD using ogr2ogr &ndash; Part 3 &ndash; Point Annotation
     to Text in CAD [&#8230;]"
 ---
-<p><a href="https://www.gisforthought.com/redir.html"><img class="aligncenter size-full wp-image-868" src="https://gisforthought.com/wp-content/uploads/2018/02/1d7c1fc2.png" alt="" width="468" height="60"/></a></p>
+<p><a href="https://www.gisforthought.com/redir.html"><img class="aligncenter size-full wp-image-868" src="https://gisforthought.com/media/2015-10-19_1d7c1fc2.png" alt="" width="468" height="60"/></a></p>
 <p><a href="http://gisforthought.com/gis-to-cad-using-ogr2ogr-part-2-gml-to-dxf-with-os-mastermap/">GIS to CAD using ogr2ogr &ndash; Part 2 &ndash; GML to DXF with OS MasterMap</a><br />
 <a href="http://gisforthought.com/gis-to-cad-using-ogr2ogr-part-3-point-annotation-to-text-in-cad/">GIS to CAD using ogr2ogr &ndash; Part 3 &ndash; Point Annotation to Text in CAD</a></p>
 <p>The power of GDAL, and specifically ogr2ogr is pretty impressive. This conversion is from shp to DXF, which is a somewhat universal CAD format so further conversion should be possible.</p>
@@ -27,26 +27,26 @@ comments:
 <p>OS Terrain 50:</p>
 <p><a href="https://www.ordnancesurvey.co.uk/opendatadownload/products.html">https://www.ordnancesurvey.co.uk/opendatadownload/products.html</a></p>
 <p>In QGIS:</p>
-<p><a title="Screenshot[1]" href="https://farm1.staticflickr.com/687/21988888570_a64bb416f1_o.png" data-flickr-embed="true"><img src="https://farm1.staticflickr.com/687/21988888570_a64bb416f1_o.png" alt="Screenshot[1]"/></a></p>
+<p><a title="Screenshot[1]" href="https://gisforthought.com/media/2015-10-19_2015-10-19_21988888570_a64bb416f1_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-10-19_2015-10-19_21988888570_a64bb416f1_o.png" alt="Screenshot[1]"/></a></p>
 <p>Contours in 3D:</p>
 <pre class="lang:sh decode:true ">ogr2ogr -f DXF contour_zfield.dxf SX99SW_line.shp -zfield PROP_VALUE</pre>
 <p>With the -zfield creating the 3d elevation.</p>
 <p>Great result:</p>
-<p><a title="Screenshot[3]" href="https://farm6.staticflickr.com/5738/22150837316_c8d34df5e2_o.png" data-flickr-embed="true"><img src="https://farm6.staticflickr.com/5738/22150837316_c8d34df5e2_o.png" alt="Screenshot[3]"/></a></p>
+<p><a title="Screenshot[3]" href="https://gisforthought.com/media/2015-10-19_2015-10-19_22150837316_c8d34df5e2_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-10-19_2015-10-19_22150837316_c8d34df5e2_o.png" alt="Screenshot[3]"/></a></p>
 <p>The alternative is to just store the z-value as layers.</p>
 <pre class="lang:sh decode:true ">ogr2ogr -f DXF contour_layer.dxf SX99SW_line.shp -sql "SELECT PROP_VALUE AS Layer FROM SX99SW_line"</pre>
 <p>Layers work great:</p>
-<p><a href="https://farm1.staticflickr.com/609/22164348762_f0e96baed6_o.png" data-flickr-embed="true"><img src="https://farm1.staticflickr.com/609/22164348762_f0e96baed6_o.png" alt="Screenshot[2]"/></a></p>
+<p><a href="https://gisforthought.com/media/2015-10-19_2015-10-19_22164348762_f0e96baed6_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-10-19_2015-10-19_22164348762_f0e96baed6_o.png" alt="Screenshot[2]"/></a></p>
 <p>With the ogr2ogr DXF driver, if you have an input column called &ldquo;Layer&rdquo; then it will be used to group features as a layer in DXF. We use a SQL query to achive this. Prop_Value is the height field in my input data.</p>
 <p>And putting them all together:</p>
 <pre class="lang:sh decode:true ">ogr2ogr -f DXF contour_zfield_layer.dxf SX99SW_line.shp -zfield PROP_VALUE -sql "SELECT PROP_VALUE AS Layer FROM SX99SW_line"</pre>
 <p>Result not as expected, flat output:</p>
-<p><a title="Screenshot[4]" href="https://farm1.staticflickr.com/766/22176969725_8d1dd88837_o.png" data-flickr-embed="true"><img src="https://farm1.staticflickr.com/766/22176969725_8d1dd88837_o.png" alt="Screenshot[4]"/></a></p>
+<p><a title="Screenshot[4]" href="https://gisforthought.com/media/2015-10-19_2015-10-19_22176969725_8d1dd88837_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-10-19_2015-10-19_22176969725_8d1dd88837_o.png" alt="Screenshot[4]"/></a></p>
 <p>Adding our SQL select statement removes our zfield attribute as such ogr2ogr cannot access it. Lets resolve this:</p>
 <pre class="lang:sh decode:true ">ogr2ogr -f DXF contour_zfield_2_layer.dxf SX99SW_line.shp -zfield PROP_VALUE -sql "SELECT PROP_VALUE AS Layer, * FROM SX99SW_line"</pre>
 <p>Excellent:</p>
-<p><a href="https://farm6.staticflickr.com/5817/21990119339_a57305fbe6_o.png" data-flickr-embed="true"><img src="https://farm6.staticflickr.com/5817/21990119339_a57305fbe6_o.png" alt="Screenshot[5]"/></a></p>
+<p><a href="https://gisforthought.com/media/2015-10-19_2015-10-19_21990119339_a57305fbe6_o.png" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-10-19_2015-10-19_21990119339_a57305fbe6_o.png" alt="Screenshot[5]"/></a></p>
 <p>Layers and height.</p>
-<p><a href="https://www.gisforthought.com/redir2.html"><img class="alignnone size-medium wp-image-883" src="http://gisforthought.com/wp-content/uploads/2015/08/namecheap.gif" alt="" width="300" height="250"/></a></p>
+<p><a href="https://www.gisforthought.com/redir2.html"><img class="alignnone size-medium wp-image-883" src="https://gisforthought.com/media/2015-10-19_namecheap.gif" alt="" width="300" height="250"/></a></p>
 <p><a href="http://gisforthought.com/gis-to-cad-using-ogr2ogr-part-2-gml-to-dxf-with-os-mastermap/">GIS to CAD using ogr2ogr &ndash; Part 2 &ndash; GML to DXF with OS MasterMap</a><br />
 <a href="http://gisforthought.com/gis-to-cad-using-ogr2ogr-part-3-point-annotation-to-text-in-cad/">GIS to CAD using ogr2ogr &ndash; Part 3 &ndash; Point Annotation to Text in CAD</a></p>

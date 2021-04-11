@@ -12,49 +12,62 @@ comments: []
 <p><strong>Edit </strong>- This can now be done using a plugin: <a href="http://gisforthought.com/qgis-select-within-plugin/">QGIS Select Within Plugin</a></p>
 <p>While we have some options for spatial selection in QGIS through the Spatial Query plugin. One option that is glaringly missing is centroid within. This is extremely useful for easily selecting polygons that mainly fall within other polygons. This tutorial will run through how to do a polygon centroid within another polygon selection in QGIS.</p>
 <p>Our initial setup is a postcode dataset, where we want to extract all of the ones that are mainly within Glasgow City Council. The boundaries are not the same but are roughly the same. However an intersect query would bring ones that simply touched the area, and a within query would exclude the ones that fall just outside. A centroid within should work great.</p>
-<p><a href="https://farm8.staticflickr.com/7524/15783901805_4357b6dce0_o.png" title="Selection by Heikki Vesanto, on Flickr"><img src="https://farm8.staticflickr.com/7524/15783901805_4357b6dce0_o.png" alt="Selection"/></a></p>
+<p><a href="https://gisforthought.com/media/2014-11-17_2014-11-17_15783901805_4357b6dce0_o.png" title="Selection by Heikki Vesanto, on Flickr"><img src="https://gisforthought.com/media/2014-11-17_2014-11-17_15783901805_4357b6dce0_o.png" alt="Selection"/></a></p>
 <p>In this image the red lines are our postcodes, and the yellow area is the highlighted Glasgow City polygon.</p>
 <p>We are going to cheat slightly by using SpatiaLite, which is a stand alone, single file, spatial database. It is however very tightly integrated into QGIS and we do not have to leave the program so I feel this counts as a QGIS solution.</p>
 <p>First using one of the browser panels create a new database:</p>
-<p><a href="https://farm8.staticflickr.com/7505/15598737927_6c757db78f_o.png" title="Screenshot[34] by Heikki Vesanto, on Flickr"><img src="https://farm8.staticflickr.com/7505/15598737927_6c757db78f_o.png" alt="Screenshot[34]"/></a></p>
+<p><a href="https://gisforthought.com/media/2014-11-17_2014-11-17_15598737927_6c757db78f_o.png" title="Screenshot[34] by Heikki Vesanto, on Flickr"><img src="https://gisforthought.com/media/2014-11-17_2014-11-17_15598737927_6c757db78f_o.png" alt="Screenshot[34]"/></a></p>
 <p>Transfer your data into the database. This can be done by dragging and dropping a .shp file into the newly created database <strong>using two browser panels</strong>.</p>
 <p>I created a subset of the postcode dataset, with a simple polygon selection of roughly the Glasgow area (postcode_glasgow_nrs_rough). My other dataset is the UK unitary authorities dataset (district_borough_unitary_region).</p>
 <p>Then open up the DB Manager. Database>DB Manager>DB Manager.</p>
 <p>Once in the database we can do the query using simple SQL:</p>
-<pre class="lang:pgsql decode:true " >SELECT  postcode_glasgow_nrs_rough.*
-FROM postcode_glasgow_nrs_rough
-JOIN district_borough_unitary_region
-ON ST_intersects(ST_centroid(postcode_glasgow_nrs_rough.geom),district_borough_unitary_region.geom)
+<pre class="lang:pgsql decode:true " >SELECT  postcode_glasgow_nrs_rough.*
+
+FROM postcode_glasgow_nrs_rough
+
+JOIN district_borough_unitary_region
+
+ON ST_intersects(ST_centroid(postcode_glasgow_nrs_rough.geom),district_borough_unitary_region.geom)
+
 WHERE district_borough_unitary_region.name LIKE "%lasgow%"</pre>
 <p>We also have a WHERE statement so only the ones that within Glasgow are selected. "%lasgow%" used to avoid capitalization mismatches.</p>
-<p><a href="https://farm8.staticflickr.com/7564/15598484078_0207206056_o.png" title="Screenshot[35] by Heikki Vesanto, on Flickr"><img src="https://farm8.staticflickr.com/7564/15598484078_0207206056_o.png" alt="Screenshot[35]"/></a></p>
+<p><a href="https://gisforthought.com/media/2014-11-17_2014-11-17_15598484078_0207206056_o.png" title="Screenshot[35] by Heikki Vesanto, on Flickr"><img src="https://gisforthought.com/media/2014-11-17_2014-11-17_15598484078_0207206056_o.png" alt="Screenshot[35]"/></a></p>
 <p>We can also directly add this query in as a layer in QGIS using the "Load as new layer" feature. An excellent feature, and only requires you to select the primary key and geometry column. This allows us to visually check our results.</p>
 <p>The query has worked as intended, but we have some strangely shaped polygons so the results are not what I had hoped.</p>
-<p><a href="https://farm6.staticflickr.com/5604/15598738367_4734f2ed1d_o.png" title="Screenshot[37] by Heikki Vesanto, on Flickr"><img src="https://farm6.staticflickr.com/5604/15598738367_4734f2ed1d_o.png" alt="Screenshot[37]"/></a></p>
+<p><a href="https://gisforthought.com/media/2014-11-17_2014-11-17_15598738367_4734f2ed1d_o.png" title="Screenshot[37] by Heikki Vesanto, on Flickr"><img src="https://gisforthought.com/media/2014-11-17_2014-11-17_15598738367_4734f2ed1d_o.png" alt="Screenshot[37]"/></a></p>
 <p>We can see that one of the postcode polygons is missing from the selection because its centroid actually falls outside of itself.</p>
 <p>Not to worry we have a better option than centroid for this query, which is ST_PointOnSurface. Details can be found on the <a href="http://workshops.boundlessgeo.com/postgis-intro/geometry_returning.html#st-centroid-st-pointonsurface">Boundless PostGIS pages</a>.</p>
 <p>So lets try this.</p>
-<pre class="lang:pgsql decode:true " >SELECT  postcode_glasgow_nrs_rough.*
-FROM postcode_glasgow_nrs_rough
-JOIN district_borough_unitary_region
-ON ST_intersects(ST_PointOnSurface(postcode_glasgow_nrs_rough.geom),district_borough_unitary_region.geom)
+<pre class="lang:pgsql decode:true " >SELECT  postcode_glasgow_nrs_rough.*
+
+FROM postcode_glasgow_nrs_rough
+
+JOIN district_borough_unitary_region
+
+ON ST_intersects(ST_PointOnSurface(postcode_glasgow_nrs_rough.geom),district_borough_unitary_region.geom)
+
 WHERE district_borough_unitary_region.name LIKE "%lasgow%"</pre>
-<p><a href="https://farm8.staticflickr.com/7494/15760212256_c9757359c1_o.png" title="Screenshot[36] by Heikki Vesanto, on Flickr"><img src="https://farm8.staticflickr.com/7494/15760212256_c9757359c1_o.png" alt="Screenshot[36]"/></a></p>
+<p><a href="https://gisforthought.com/media/2014-11-17_2014-11-17_15760212256_c9757359c1_o.png" title="Screenshot[36] by Heikki Vesanto, on Flickr"><img src="https://gisforthought.com/media/2014-11-17_2014-11-17_15760212256_c9757359c1_o.png" alt="Screenshot[36]"/></a></p>
 <p>Adding it in we see the results as expected.</p>
-<p><a href="https://farm6.staticflickr.com/5605/15782030921_0366a299ae_o.png" title="Screenshot[38] by Heikki Vesanto, on Flickr"><img src="https://farm6.staticflickr.com/5605/15782030921_0366a299ae_o.png" alt="Screenshot[38]"/></a></p>
+<p><a href="https://gisforthought.com/media/2014-11-17_2014-11-17_15782030921_0366a299ae_o.png" title="Screenshot[38] by Heikki Vesanto, on Flickr"><img src="https://gisforthought.com/media/2014-11-17_2014-11-17_15782030921_0366a299ae_o.png" alt="Screenshot[38]"/></a></p>
 <p>So great we now have our data selected, but how do I get it out of SpatiaLite? We could wait for the "Load as new layer" to load in all the features, then save it as a shapefile, but for my query, while great for quick look, the "Load as new layer" was running quite slow and thus not an option.</p>
 <p>So instead, we can simply create a new table in the database from our selection.</p>
-<pre class="lang:pgsql decode:true " >CREATE TABLE glasgow_postcode_nrs AS
-SELECT  postcode_glasgow_nrs_rough.*
-FROM postcode_glasgow_nrs_rough
-JOIN district_borough_unitary_region
-ON ST_intersects(ST_PointOnSurface(postcode_glasgow_nrs_rough.geom),district_borough_unitary_region.geom)
+<pre class="lang:pgsql decode:true " >CREATE TABLE glasgow_postcode_nrs AS
+
+SELECT  postcode_glasgow_nrs_rough.*
+
+FROM postcode_glasgow_nrs_rough
+
+JOIN district_borough_unitary_region
+
+ON ST_intersects(ST_PointOnSurface(postcode_glasgow_nrs_rough.geom),district_borough_unitary_region.geom)
+
 WHERE district_borough_unitary_region.name LIKE "%lasgow%";</pre>
 <p>Note the ; at the end. This creates a new table pretty quickly. And to get it to appear as a spatial table we simply register its geometry in the geometry column:</p>
 <pre class="lang:pgsql decode:true " >INSERT INTO geometry_columns VALUES ('glasgow_postcode_nrs', 'geom',6, 2, 27700, 0);</pre>
 <p>With the options being: Table name, Geometry column, Geometry (type 6 for polygon), dimensions, SRID, Spatial index boolean.</p>
 <p>The table the appears in our browser.</p>
-<p><a href="https://farm8.staticflickr.com/7493/15782030481_c0870d7311_o.png" title="Screenshot[41] by Heikki Vesanto, on Flickr"><img src="https://farm8.staticflickr.com/7493/15782030481_c0870d7311_o.png" alt="Screenshot[41]"/></a></p>
+<p><a href="https://gisforthought.com/media/2014-11-17_2014-11-17_15782030481_c0870d7311_o.png" title="Screenshot[41] by Heikki Vesanto, on Flickr"><img src="https://gisforthought.com/media/2014-11-17_2014-11-17_15782030481_c0870d7311_o.png" alt="Screenshot[41]"/></a></p>
 <p>And our final result.</p>
-<p><a href="https://farm9.staticflickr.com/8135/15785473992_0e5df9cdd8_o.png" title="part2 by Heikki Vesanto, on Flickr"><img src="https://farm9.staticflickr.com/8135/15785473992_0e5df9cdd8_o.png" alt="part2"/></a></p>
+<p><a href="https://gisforthought.com/media/2014-11-17_2014-11-17_15785473992_0e5df9cdd8_o.png" title="part2 by Heikki Vesanto, on Flickr"><img src="https://gisforthought.com/media/2014-11-17_2014-11-17_15785473992_0e5df9cdd8_o.png" alt="part2"/></a></p>
 <p>I am loving the database integration in QGIS. It makes some workflows much easier and adds a wealth of new opportunities. Also the "Load as new layer" views are amazing, lots of possibilities.</p>

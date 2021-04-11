@@ -8,11 +8,11 @@ permalink: /setting-up-your-gdal-and-ogr-environmental-variables/
 date: '2015-08-10 12:00:29 +0100'
 date_gmt: '2015-08-10 11:00:29 +0100'
 ---
-<p><a href="https://www.gisforthought.com/redir.html"><img class="aligncenter size-full wp-image-868" src="https://gisforthought.com/wp-content/uploads/2018/02/1d7c1fc2.png" alt="" width="468" height="60"/></a></p>
+<p><a href="https://www.gisforthought.com/redir.html"><img class="aligncenter size-full wp-image-868" src="https://gisforthought.com/media/2015-08-10_1d7c1fc2.png" alt="" width="468" height="60"/></a></p>
 <p>I recently upgraded to Windows 10, and have been setting up my GIS workspace settings.</p>
 <p>Setting up your Windows path environmental variables can easily be done through the command line.</p>
 <p>These commands can be run directly in the command line and don't require a computer restart to take effect. To run the command prompt, simply open up the windows search (Windows Key + S) and search for &ldquo;cmd&rdquo;:</p>
-<p><img src="https://farm1.staticflickr.com/526/20428438032_845361b63c_z.jpg" alt="Screenshot[3]"/></p>
+<p><img src="https://gisforthought.com/media/2015-08-10_20428438032_845361b63c_z.jpg" alt="Screenshot[3]"/></p>
 <p>Then run the command to add the path.</p>
 <p><strong>Update: PROJ_LIB also needs to be set, to prevent "PROJ: proj_create_from_wkt: Cannot find proj.db" errors.</strong></p>
 <p>For a 64bit OSGeo4W install:</p>
@@ -23,10 +23,10 @@ setx PROJ_LIB "C:\OSGeo4W64\share\proj"</pre>
 <pre class="lang:sh decode:true">setx PATH &ldquo;%PATH%;C:\OSGeo4W\bin&rdquo;
 setx GDAL_DATA &ldquo;C:\OSGeo4W\share\gdal&rdquo;
 setx PROJ_LIB "C:\OSGeo4W\share\proj"</pre>
-<p><a title="Screenshot[6]" href="https://www.flickr.com/photos/115987875@N04/20443327641/in/dateposted-public/" data-flickr-embed="true"><img src="https://farm1.staticflickr.com/529/20443327641_f351605c55_o.png" alt="Screenshot[6]"/></a></p>
+<p><a title="Screenshot[6]" href="https://www.flickr.com/photos/115987875@N04/20443327641/in/dateposted-public/" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-08-10_20443327641_f351605c55_o.png" alt="Screenshot[6]"/></a></p>
 <p>Restart your command prompt.</p>
-<p><a title="Screenshot[7]" href="https://www.flickr.com/photos/115987875@N04/20250461329/in/dateposted-public/" data-flickr-embed="true"><img src="https://farm1.staticflickr.com/540/20250461329_94fe43f009_o.png" alt="Screenshot[7]"/></a></p>
+<p><a title="Screenshot[7]" href="https://www.flickr.com/photos/115987875@N04/20250461329/in/dateposted-public/" data-flickr-embed="true"><img src="https://gisforthought.com/media/2015-08-10_20250461329_94fe43f009_o.png" alt="Screenshot[7]"/></a></p>
 <p>Success.</p>
 <p>No more:<br />
 'org2ogr' is not recognized as an internal or external command, operable program or batch file.</p>
-<p><a href="https://www.gisforthought.com/redir2.html"><img class="alignnone size-medium wp-image-883" src="http://gisforthought.com/wp-content/uploads/2015/08/namecheap.gif" alt="" width="300" height="250"/></a></p>
+<p><a href="https://www.gisforthought.com/redir2.html"><img class="alignnone size-medium wp-image-883" src="https://gisforthought.com/media/2015-08-10_namecheap.gif" alt="" width="300" height="250"/></a></p>
