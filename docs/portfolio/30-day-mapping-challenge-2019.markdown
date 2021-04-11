@@ -2,6 +2,7 @@
 layout: post
 title:  "30 Day Mapping Challenge 2019"
 date:   2019-12-01 01:16:59 +0000
+permalink: /portfolio/30-day-mapping-challenge-2019/
 ---
 ![All 30 days.](https://gisforthought.com/media/2020-02-24_all_30.png)
 ![Day 1 Points](https://gisforthought.com/media/2020-02-24_day1_point.png)
