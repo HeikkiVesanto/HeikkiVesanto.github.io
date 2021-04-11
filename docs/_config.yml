@@ -41,10 +41,9 @@ kramdown:
 
 # Build settings
 theme: jekyll-theme-cayman
-plugins:
-  - jekyll-feed
-  - jekyll-twitter-plugin
+plugins: ['jekyll-twitter-plugin']
 
+# jekyll-feed
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
