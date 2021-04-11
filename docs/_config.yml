@@ -41,8 +41,8 @@ kramdown:
 
 # Build settings
 theme: jekyll-theme-cayman
-plugins:
-  - jekyll-twitter-plugin
+# plugins:
+#   - jekyll-twitter-plugin
 
 # jekyll-feed
 # Exclude from processing.
