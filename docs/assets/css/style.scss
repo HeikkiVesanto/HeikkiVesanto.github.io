@@ -4,7 +4,7 @@
 $header-bg-color: #000000;
 $header-bg-color-secondary: #155799;
 @import "{{ site.theme }}";
-h2{
+.project-tagline{
  a{
    color:#ffffff !important;
  }
