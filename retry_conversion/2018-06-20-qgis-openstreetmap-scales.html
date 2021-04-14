@@ -1,0 +1,68 @@
+---
+layout: post
+status: publish
+published: true
+title: QGIS OpenStreetMap Scales
+author: Heikki Vesanto
+permalink: /qgis-openstreetmap-scales/
+date: '2018-06-20 10:00:28 +0100'
+date_gmt: '2018-06-20 09:00:28 +0100'
+comments: []
+---
+<p>Save as a text file ending in .xml like qgis_scales.xml</p>
+<p>These are the scales OpenStreetMap tiles are rendered in for 96 dpi, so the map will look sharp on most monitors. These are the scales for the zoom levels.</p>
+<p>The xml file can then be loaded into the project from:</p>
+<p>Project> Project Properties...> General> Project scales</p>
+<pre class="lang:sh decode:true " title="qgis_scales2.xml" ><qgsScales version="1.0">
+
+    <scale value="1:554678932"/>
+
+    <scale value="1:277339466"/>
+
+    <scale value="1:138669733"/>
+
+    <scale value="1:69334866"/>
+
+    <scale value="1:34667433"/>
+
+    <scale value="1:17333716"/>
+
+    <scale value="1:8666858"/>
+
+    <scale value="1:4333429"/>
+
+    <scale value="1:2166714"/>
+
+    <scale value="1:1083357"/>
+
+    <scale value="1:541678"/>
+
+    <scale value="1:270839"/>
+
+    <scale value="1:135419"/>
+
+    <scale value="1:67709"/>
+
+    <scale value="1:33854"/>
+
+    <scale value="1:16927"/>
+
+    <scale value="1:8463"/>
+
+    <scale value="1:4231"/>
+
+    <scale value="1:2115"/>
+
+</qgsScales>
+
+</pre>
+<p>Example:</p>
+<p>1,000,000 (QGIS default):</p>
+<p><img src="https://gisforthought.com/media/2018-06-20_1000000.png" alt="" width="500" height="500" class="aligncenter size-full wp-image-962" /></p>
+<p>1,083,357 (OSM wiki):</p>
+<p><img src="https://gisforthought.com/media/2018-06-20_1083357.png" alt="" width="500" height="500" class="aligncenter size-large wp-image-963" /></p>
+<p>1,155,584 (From: <a href="https://www.3liz.com/blog/rldhont/index.php?post/2012/07/17/OpenStreetMap-Tiles-in-QGIS">3liz</a>):</p>
+<p><img src="https://gisforthought.com/media/2018-06-20_1155583.png" alt="" width="500" height="500" class="aligncenter size-large wp-image-964" /></p>
+<p>Scales from:<br />
+<a href="https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Resolution_and_Scale">OSM wiki</a></p>
+<p>Zoom scales.</p>

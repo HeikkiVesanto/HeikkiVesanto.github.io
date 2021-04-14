@@ -1,0 +1,41 @@
+---
+layout: post
+status: publish
+published: true
+title: Every Person in Great Britain Mapped
+author: Heikki Vesanto
+permalink: /every-person-in-great-britain-mapped/
+date: '2019-03-05 07:00:06 +0000'
+date_gmt: '2019-03-05 07:00:06 +0000'
+comments: []
+---
+<p><!-- wp:paragraph --></p>
+<p>A follow up to my previous post: <a href="https://gisforthought.com/every-person-in-scotland-on-the-map/">Every Person in Scotland on the Map</a>. Winner of the 2016&nbsp;<em><a href="https://www.cartography.org.uk/awards/past-winners/2016-bcs-awards/">OS OpenData Award for Excellence in the use of OpenData</a></em> from the British Cartographic Society<em>.</em></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:shortcode --><br />
+[iframe src="https://maps.gisforthought.com/gb_population/index.html" width="100%" height="500"]<br />
+<!-- /wp:shortcode --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong><a href="https://maps.gisforthought.com/gb_population/">Full size interactive map.</a></strong></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>The mapping process is pretty straightforward, and not accurate. I don't know where you live. But I can make an educated guess.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>I simply amalgamate the two sets of census data from the NRS (<a href="http://www.nrscotland.gov.uk/statistics-and-data">National Records of Scotland</a>) for Scotland (2011 census) and the ONS (<a href="https://www.ons.gov.uk/">Office of National Statistics</a>) for England and Wales (2010 census).</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Postcodes were then created based on the ONS Postcode Directory, filtering for postcodes that were live in 2011 (which is the latest census data). The postcode centroids were turned into polygons using voronoi polygons.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Then we simply select all of the buildings in a postcode from <a href="http://www.ordnancesurvey.co.uk/">Ordnance Survey</a>,&nbsp;<a href="https://www.ordnancesurvey.co.uk/business-and-government/products/opendata-products.html">Open Map</a>&nbsp;product, filtering out most schools and hospitals. Then we put a random point in a random building for each person in that postcode.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>I would have loved to include Northern Ireland, but the Ordnance Survey of Northern Ireland do not have an equivalent open building outline dataset, like Open Map from the Ordnance Survey.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Rendered with:&nbsp;<a href="http://alephnull.net/software/gis/tile_writer.shtml">QGIS tile writer python script</a>. Processing done 100% in <a href="https://postgis.net/">PostGIS</a>.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":1117} --></p>
+<figure class="wp-block-image"><img src="https://gisforthought.com/media/2019-03-05_every_person_mapped_gb-724x1024.png" alt="" class="wp-image-1117"/></figure>
+<p><!-- /wp:image --></p>

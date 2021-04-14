@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: Loading Natural Earth data to PostGIS PostgreSQL
+author: Heikki Vesanto
+permalink: /loading-natural-earth-data-to-postgis-postgresql/
+date: '2014-02-11 12:00:13 +0000'
+date_gmt: '2014-02-11 12:00:13 +0000'
+comments: []
+---
+<p>Natural Earth provides some of the best data for large scale mapping. It is clean, accurate, extensive, at a number of different scales, and best of all free.</p>
+<p>To load the data it into PostGIS (PostgreSQL) we will use the vector tools provided in GDAL. Mainly ogr2ogr.</p>
+<p>After downloading the data. I went for all of the vector data in ShapeFile format. First I need to generate a list of datasets and their respective file paths. This will be put into a spreadsheet and the command to load the data will be applied to each line, and finally it will be run using a shell script. <a title="Setting up PostgreSQL and PostGIS on Linux Mint" href="http://gisforthought.com/setting-up-postgresql-and-postgis-on-linux-mint/">Setting up a PostGIS database is covered in my previous post.</a></p>
+<p>My Natural Earth data consisted of:</p>
+<p>28 directories, 1472 files</p>
+<p>So a little automation is needed. Interestingly there were also a few .gdb files "ne_10m_admin_1_label_points.gdb". Those we can look into at a later date.</p>
+<p>To begin:</p>
+<pre class="lang:sh decode:true">ls > my_contents.txt</pre>
+<p style="text-align: left;">Produced a decent result, but not quite what I was looking for.</p>
+<pre class="lang:sh decode:true">sudo apt-get install tree
+
+tree > natural_earth.txt</pre>
+<p>Was much better, although with a bit more tuning I'm sure ls would have achieved a better result.</p>
+<p><a title="tree" href="https://gisforthought.com/media/2014-02-11_12446304573_6b437704a9_o.png" rel=""><img title="tree" alt="tree" src="https://gisforthought.com/media/2014-02-11_12446304573_3df2fcb048.jpg" width="500" height="426" /></a></p>
+<p>After a bit of work in the spreadsheet, I had what I wanted. Perhaps not the most elegant solution, but certainly enough for my purposes.</p>
+<p>Now for the ogr2ogr command:</p>
+<pre class="lang:sh decode:true">ogr2ogr -nlt PROMOTE_TO_MULTI -progress -skipfailures -overwrite -lco PRECISION=no -f PostgreSQL PG:"dbname='natural_earth' host='localhost' port='5432' user='natural_earth' password='natural_earth'" 10m_cultural/ne_10m_admin_0_antarctic_claim_limit_lines.shp</pre>
+<p>Ogr2ogr is a file converter, which does so much more. In this case we are converting the ShapeFiles into tables in a PostGIS database. Essentially you want to copy the beginning part of the command in front of the files you want to load,&nbsp;<span style="font-size: 1rem;">changing&nbsp;</span><span style="line-height: 1.714285714; font-size: 1rem;">only: "10m_cultural/ne_10m_admin_0_antarctic_claim_limit_lines.shp" .</span></p>
+<p>Our settings:</p>
+<p><em>-nlt PROMOTE_TO_MULTI</em>&nbsp;| Loads all out files as if they were multi-part polygons. This means that a multi-part polygon wont fail the loading. This is a PostGIS requirement.</p>
+<p><em>-progress&nbsp;|&nbsp;</em>Shows a progress bar.</p>
+<p><em>-skipfailures</em> |&nbsp;Will not stop for each failure.</p>
+<p><em>-overwrite&nbsp;|&nbsp;</em>Overwrites a table if there is one with the same name. Our tables will be called whatever the ShaeFile is called since we are not specifying a name.</p>
+<p><em>-lco PRECISION=no&nbsp;|&nbsp;</em>Helps keep numbers manageable, especially with this data where precision is not important.</p>
+<p><em>-f PostgreSQL PG:"dbname='DatabaseName' host='IpAddressOfHost' port='5432' user='Username' password='Password'"&nbsp;|&nbsp;</em>Details of the database where we are connecting to.</p>
+<p>Now we are ready to run the commands. While ogr2ogr commands can be pasted straight into the terminal, for this task that is not really feasible. So we can create a simple shell script.</p>
+<p>Copy the commands into a file and then:</p>
+<pre class="lang:sh decode:true">sh your_commands</pre>
+<p>Finally there was one final error, with&nbsp;ne_10m_populated_places.shp. This was due to encoding. The encoding for the ogr2ogr tool can be changed from UFT8 to LATIN1 using:</p>
+<pre class="lang:sh decode:true">export PGCLIENTENCODING=LATIN1;</pre>
+<p>After which the file loaded swimmingly.</p>
+<p>Now for some mapping.</p>
+<p>Thanks to:</p>
+<p><a href="http://unix.stackexchange.com/questions/92387/pasting-into-terminal-deteriorating?noredirect=1#comment139520_92387">http://unix.stackexchange.com/questions/92387/pasting-into-terminal-deteriorating?noredirect=1#comment139520_92387</a></p>
+<p><a href="http://lists.osgeo.org/pipermail/gdal-dev/2009-May/020771.html">http://lists.osgeo.org/pipermail/gdal-dev/2009-May/020771.html</a></p>

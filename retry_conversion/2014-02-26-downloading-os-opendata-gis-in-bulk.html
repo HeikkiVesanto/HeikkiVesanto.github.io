@@ -1,0 +1,52 @@
+---
+layout: post
+status: publish
+published: true
+title: Downloading OS OpenData (GIS) in Bulk
+author: Heikki Vesanto
+permalink: /downloading-os-opendata-gis-in-bulk/
+date: '2014-02-26 12:00:48 +0000'
+date_gmt: '2014-02-26 12:00:48 +0000'
+comments: []
+---
+<p>The Ordnance Survey have begun to release their data as free to use. I think this is great, and despite what some say, I think the selection is good as well. I can see why MasterMap and AddressBase, their flagship products still cost money, there are some significant costs associated with producing them.</p>
+<p>There is however still a bit of a barrier of entry, into using OS OpenData. This guide will hopefully make downloading the data a little bit easier.</p>
+<p>OS OpenData needs to be ordered from:</p>
+<p><a href="https://www.ordnancesurvey.co.uk/opendatadownload/products.html">https://www.ordnancesurvey.co.uk/opendatadownload/products.html</a></p>
+<p>There is no cost, but a valid e-mail address is required.</p>
+<p>For my purposes I started with&nbsp;OS Street View&reg;&nbsp;and&nbsp;OS VectorMap&trade; District for the whole country.</p>
+<p>You will receive an e-mail with the download links for the data. Unfortunately these are individual links since the data is split up into tiles. 55 tiles in total for the whole of the UK, so we want some way to automate the download of these links.</p>
+<p>In comes curl, made by some nice Swedes. curl is a command line tool which will download the link provided.</p>
+<p>Attempt number 1:</p>
+<pre class="lang:sh decode:true">curl http://download.ordnancesurvey.co.uk/open/OSSTVW/201305/ITCC/osstvw_sy.zip?sr=b&amp;st=2013-10-03T18:51:25Z&amp;se=2013-10-06T18:51:25Z&amp;si=opendata_policy&amp;sig=YOUR_UNIQUE_CODE_HERE</pre>
+<p>Result:</p>
+<pre class="lang:sh decode:true">[1] 20182 
+
+[2] 20183 
+
+[3] 20184 
+
+[4] 20185 
+
+[2]   Done                    st=2013-10-03T18:51:25Z 
+
+vesanto@hearts-lnx /data/OS $ <?xml version="1.0" encoding="utf-8"?><Error><Code>ResourceNotFound</Code><Message>The specified resource does not exist. 
+
+RequestId:54953719-5e43-4791-aa60-51dee61f27ac 
+
+Time:2013-10-03T19:20:04.3403546Z</Message></Error></pre>
+<p>Not quite there, missing the quotes:</p>
+<pre class="lang:sh decode:true">curl 'http://download.ordnancesurvey.co.uk/open/OSSTVW/201305/ITCC/osstvw_sy.zip?sr=b&amp;st=2013-10-03T18:51:25Z&amp;se=2013-10-06T18:51:25Z&amp;si=opendata_policy&amp;sig=YOUR_UNIQUE_CODE_HERE'</pre>
+<p>Which was a success, but it started downloading the file into the terminal (ctrl+c stopped it):</p>
+<p><a title="Screenshot from 2013-10-03 20:16:12" href="https://gisforthought.com/media/2014-02-26_12778245444_c91eebfcd8_o.png" rel=""><img title="Screenshot from 2013-10-03 20:16:12" alt="Screenshot from 2013-10-03 20:16:12" src="https://gisforthought.com/media/2014-02-26_12778245444_714fa96089.jpg" width="484" height="500" /></a></p>
+<p>So we need an output file as well:</p>
+<pre class="lang:sh decode:true">curl 'http://download.ordnancesurvey.co.uk/open/OSSTVW/201305/ITCC/osstvw_sy.zip?sr=b&amp;st=2013-10-03T18:51:25Z&amp;se=2013-10-06T18:51:25Z&amp;si=opendata_policy&amp;sig=YOUR_UNIQUE_CODE_HERE' -o osstvw_sy.zip</pre>
+<p>Success:</p>
+<p><a title="Screenshot from 2013-10-04 08:43:17" href="https://gisforthought.com/media/2014-02-26_12777930913_c7712d99cd_o.png" rel=""><img title="Screenshot from 2013-10-04 08:43:17" alt="Screenshot from 2013-10-04 08:43:17" src="https://gisforthought.com/media/2014-02-26_12777930913_360741a52e.jpg" width="500" height="471" /></a></p>
+<p>To run this in bulk, just format the commands in LibreOffice (Excel) and create a&nbsp;simple&nbsp;shell script.</p>
+<p>Copy the commands into a file and then:</p>
+<pre>sh the_file_containing_your_commands</pre>
+<p>To load the downloaded data into PostGIS, see my previous post on <a title="Loading Natural Earth data to PostGIS PostgreSQL" href="http://gisforthought.com/loading-natural-earth-data-to-postgis-postgresql/">loading data into PostGIS</a>.</p>
+<p>Also a few tips for newer users of OS OpenData:</p>
+<p>They are all in the British National Grid Projection (EPSG:27700). Watch out for this in QGIS. Version 1.8 used the 3 parameter conversion while 2.0 uses the 9 parameter. This means that if you created data in QGIS 1.8 and are now using 2.0, your data may not line up if you have "on the fly" CRS transformation turned on. To fix this just go into the layer properties and re-define the projection as British National Grid (EPSG:27700) for all the layers.</p>
+<p>If you are working with Raster data you need to copy the&nbsp;.tfw files into the same directory as the .tif files. The&nbsp;.tfw (tiff world files) tell the .tif image where they should be in the world.</p>

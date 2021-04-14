@@ -1,0 +1,58 @@
+---
+layout: post
+status: publish
+published: true
+title: Multi Ring Buffer &ndash; Buffer the Buffer or Incrementally Increasing Distance?
+author: Heikki Vesanto
+permalink: /qgis-multi-ring-buffer-buffer/
+date: '2015-07-22 12:00:32 +0100'
+date_gmt: '2015-07-22 11:00:32 +0100'
+---
+<p>Does it matter, and who cares?</p>
+<p>Multi-ring buffers can be useful for simple distance calculations as seen in:<br />
+<a href="http://gisforthought.com/x-percent-of-the-population-of-scotland-lives-within-y-miles-of-glasgow/">X Percent of the Population of Scotland Lives Within Y Miles of Glasgow</a><br />
+And:<br />
+<a href="http://gisforthought.com/x-percent-of-the-population-of-scotland-lives-within-y-miles-of-edinburgh/">X Percent of the Population of Scotland Lives Within Y Miles of Edinburgh</a></p>
+<p>For these I simply created multiple buffers using the QGIS buffer tool. This works for small samples, but was quite frustrating. I had initially hoped to do the whole analysis in SQLite, which worked pretty well initally, but struggled on the larger buffers. It took too long to run the queries, and did not allow for visualisation. I think using PostGIS would however be pretty feasible.</p>
+<p>But creating a multi-ring buffer plugin for QGIS also seemed like a good learning experience. Which got me thinking, does it matter if you create increasingly large buffers around the original feature, or if you buffered the resulting buffer sequentially. My hypothesis was that there would be pretty significant differences due to the rounding of corners.</p>
+<p>I asked on StackExchange but the conversation did not really take off:<br />
+<a href="http://gis.stackexchange.com/questions/140413/multi-ring-buffer-methodology">http://gis.stackexchange.com/questions/140413/multi-ring-buffer-methodology</a></p>
+<p>My question is not about the overlapping-ness of the buffers, since I think multi-ring buffers should be &ldquo;doughnuts&rdquo; anyway. But rather if smoothing will occur. The only answer was to try it myself.</p>
+<p>Buffer styles:<br />
+Buffer the resulting buffer sequentially: <strong>Sequential</strong><br />
+Buffer the original feature with increasing buffer distance: <strong>Central</strong><br />
+[table caption="Speed &ndash; In seconds"]<br />
+Features, Rings,Central, Sequential<br />
+1, 5, 0.59, 0.56<br />
+55, 5, 8.06, 6.38<br />
+1, 200, 60.83, 31.76<br />
+3, 200, 62.89, 40.89<br />
+55, 200, 628.38, 586.67<br />
+1, 2000, 203.84, 67.00<br />
+[/table]</p>
+<p>No matter how you do it the sequential style is quicker, but that may be down to my code.</p>
+<p><strong>Rendering</strong></p>
+<p>Interestingly, although understandably, the sequential style results in a lot more vertices in the outer rings. For comparison, for a 500 ring buffer the outermost ring had the following vertice counts:<br />
+[table]<br />
+Style, Vertices<br />
+Central,488<br />
+Sequential,30918<br />
+[/table]</p>
+<p>We can see this with editing turned on.<br />
+Central:<br />
+<a data-flickr-embed="true" href="https://www.flickr.com/photos/115987875@N04/19680988369/in/dateposted-public/" title="Central_editing"><img src="https://gisforthought.com/media/2015-07-22_19680988369_ec4e671de4_b.jpg" alt="Central_editing"/></a><br />
+Sequential:<br />
+<a data-flickr-embed="true" href="https://www.flickr.com/photos/115987875@N04/19872561531/in/dateposted-public/" title="Sequential_editing"><img src="https://gisforthought.com/media/2015-07-22_19872561531_3061bb4ceb_b.jpg" alt="Sequential_editing"/></a></p>
+<p>We can also see a smoother profile in the sequential buffer. However the difference is not major, and hard to discern with the naked eye.<br />
+[iframe src="http://gfycat.com/ifr/PiercingFairClam" frameborder="0" scrolling="no"]<br />
+So we have at most about around a 10m discrepancy, with 500 50m rings, so around 25000m of distance from the original feature.<br />
+<a data-flickr-embed="true" href="https://www.flickr.com/photos/115987875@N04/19867606025/in/dateposted-public/" title="Screenshot[34]"><img src="https://gisforthought.com/media/2015-07-22_19867606025_52077255de_b.jpg" alt="Screenshot[34]"/></a><br />
+This impacts rendering time dramatically, an example with our 500 rings:</p>
+<p>Central:<br />
+[iframe src="http://gfycat.com/ifr/WateryInferiorBovine" frameborder="0" scrolling="no"]<br />
+Sequential:<br />
+[iframe src="http://gfycat.com/ifr/AlarmedCalculatingAsianwaterbuffalo" frameborder="0" scrolling="no"]<br />
+So quicker to create but slower to draw. So which one is better, quicker calculation, or quicker rendering? Or should we not do 200+ ring buffers?</p>
+<p>Hard to say. In version 0.2 of the Multi Ring Buffer Plugin. There is an option for either in the advanced tab.</p>
+<p>Plugin: <a href="https://plugins.qgis.org/plugins/Multi_Ring_Buffer/">https://plugins.qgis.org/plugins/Multi_Ring_Buffer/</a><br />
+Please report any issues through GitHub: <a href="https://github.com/HeikkiVesanto/QGIS_Multi_Ring_Buffer/issues">https://github.com/HeikkiVesanto/QGIS_Multi_Ring_Buffer/issues</a></p>

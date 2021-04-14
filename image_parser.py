@@ -6,12 +6,12 @@ import csv
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-posts = 'docs\\_posts'
-media = 'docs\\media'
+posts = 'retry_conversion'
+media = 'media_ret'
 
 post_dir = os.path.join(dir_path, posts)
 
-broken_images = 'broken.csv'
+broken_images = 'broken_new.csv'
 
 f = open(os.path.join(dir_path, broken_images), 'w')
 writer = csv.writer(f)

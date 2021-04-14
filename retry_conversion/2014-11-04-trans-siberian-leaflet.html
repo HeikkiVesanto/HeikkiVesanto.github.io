@@ -1,0 +1,41 @@
+---
+layout: post
+status: publish
+published: true
+title: Trans Siberian Leaflet
+author: Heikki Vesanto
+permalink: /trans-siberian-leaflet/
+date: '2014-11-04 12:00:56 +0000'
+date_gmt: '2014-11-04 12:00:56 +0000'
+comments: []
+---
+<p>This was a great learning experience. Same as the GitHub example, but now with Leaflet.</p>
+<p>[iframe src="http://gisforthought.com/projects/trans_siberian/trans_sib_insert.html" width="100%" height="550"]</p>
+<p>Leaflet code:</p>
+<pre class="lang:js decode:true " ><script type="text/javascript">
+var map = L.map('map').setView([45,77], 4);
+
+L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+    attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
+maxZoom: 18,
+    subdomains: '1234',
+    }).addTo(map);
+
+function style(feature) {
+    return {
+        weight: 3,
+        opacity: 0.6,
+        color: 'red',
+    };
+}
+	
+var route = new L.geoJson(route, {
+		style: style,
+    }).addTo(map);
+
+
+</script></pre>
+<p>In addition we have the following in the header:</p>
+<pre class="lang:js decode:true " ><script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"> </script>
+<script src="route.js"></script></pre>
+<p>So the route is being read directly from a .geojson file. Although it has been renamed to route.js, and "var route = [" has been added to the beginning of the file and "]" to the end.</p>
