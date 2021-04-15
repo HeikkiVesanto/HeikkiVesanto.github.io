@@ -8,7 +8,6 @@ permalink: /updating-a-plugin-from-qgis-2-to-qgis-3/
 date: '2018-01-24 08:00:05 +0000'
 date_gmt: '2018-01-24 08:00:05 +0000'
 ---
-<p><a href="https://www.gisforthought.com/redir.html"><img class="aligncenter size-full wp-image-868" src="https://gisforthought.com/media/2018-01-24_1d7c1fc2.png" alt="" width="468" height="60"/></a></p>
 <p>I have two plugins in the QGIS plugin repository, and with the release of QGIS 3 looming it was time to upgrade them for QGIS 3.</p>
 <p>There is a short guide by the QGIS dev team that is a good starting point at:<br /><a href="https://github.com/qgis/QGIS/wiki/Plugin-migration-to-QGIS-3">https://github.com/qgis/QGIS/wiki/Plugin-migration-to-QGIS-3</a></p>
 <p>But I had not done any development on these plugins for a while so a more step by step guide was useful, so hopefully, write the guide for the first plugin and follow it step by step for the second.</p>
@@ -104,6 +103,3 @@ git push</pre>
 <p>Zip the plugin up.<br />Upload to <a href="https://plugins.qgis.org/plugins/">https://plugins.qgis.org/plugins/</a></p>
 <p><strong>Second plugin:</strong><br />Same issue with import *<br />1 error with QgsMapLayerRegistry<br />My resources_rc file was called resource_rc so the batch script needed to be edited to:<br />call pyrcc5 resources.qrc -o resource_rc.py<br />Same issues with QtGui.QDialog</p>
 <p>Now time for some improvements.</p>
-<p><a href="https://www.gisforthought.com/redir2.html"><img class="aligncenter size-full wp-image-885" src="https://gisforthought.com/media/2018-01-24_namecheap.gif" alt="" width="300" height="250"/></a></p>
-<p><!-- wp:paragraph --></p>
-<p><!-- /wp:paragraph --></p>
