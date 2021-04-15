@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Trans Siberian</title>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"/>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"> </script>
+	<script src="https://raw.githubusercontent.com/HeikkiVesanto/leaflet-hash/master/leaflet-hash.js"> </script>
+	<script src="route.js"></script>
+
+	<style>
+        html, body, #map {
+            height: 100%;
+        }
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+	
+</head>
+<body>
+
+	<div id="map"></div>
+
+<script type="text/javascript">
+var map = L.map('map').setView([45,77], 3);
+
+L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+    attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
+maxZoom: 18,
+    subdomains: '1234',
+    }).addTo(map);
+
+function style(feature) {
+    return {
+        weight: 3,
+        opacity: 0.6,
+        color: 'red',
+    };
+}
+	
+var route = new L.geoJson(route, {
+		style: style,
+    }).addTo(map);
+
+
+</script>
+
+
+</body>
+</html>

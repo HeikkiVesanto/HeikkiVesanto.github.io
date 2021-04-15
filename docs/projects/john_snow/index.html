@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui' />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="opacity/Control.Opacity.css" />
+        <link rel="stylesheet" href="jquery/jquery-ui-1.10.3.custom.min.css" />
+        <style>
+        #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 95%;
+            }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/leaflet.js"></script>
+        <script src="opacity/Control.Opacity.js"></script>
+        <script src="jquery/jquery-1.9.1.js"></script>
+        <script src="jquery/jquery-ui-1.10.3.custom.min.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:18, minZoom:10
+        }).fitBounds([[51.508487712369444,-0.1454757325633326],[51.517492778223875,-0.1289332308831]]);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
+
+        var layer_OSMStandard_0 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            opacity: 1.0
+        });
+        
+        var opacitySlider = new L.Control.opacitySlider( {position: 'topleft'});
+        map.addControl(opacitySlider);
+        
+        layer_OSMStandard_0.addTo(map);
+        map.addLayer(layer_OSMStandard_0);
+        var img_Snowcholeramap1_1 = 'data/Snowcholeramap1_1.png';
+        var img_bounds_Snowcholeramap1_1 = [[51.5091087238973,-0.1439845890777875],[51.516816125716836,-0.13076233156266887]];
+        var layer_Snowcholeramap1_1 = new L.imageOverlay(img_Snowcholeramap1_1, img_bounds_Snowcholeramap1_1);
+        map.addLayer(layer_Snowcholeramap1_1);
+
+        
+        opacitySlider.setOpacityLayer(layer_Snowcholeramap1_1);
+        layer_Snowcholeramap1_1.setOpacity(0.7);
+        
+        var marker = L.marker([51.5131595, -0.1366235]).addTo(map);
+        
+        marker.bindPopup("John Snow Pub");
+                
+
+        </script>
+    </body>
+</html>

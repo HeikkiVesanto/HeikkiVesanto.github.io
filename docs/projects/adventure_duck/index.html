@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>Adventures of a Duck</title>
+		<meta charset="utf-8" />
+        <link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" href="css/Leaflet.Photo.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+		<link rel="stylesheet" href="css/map.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="js/Leaflet.Photo.js"></script>
+		<script src="js/L.Polyline.SnakeAnim.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    </head>
+    <body style="padding: 0; margin: 0;">
+	
+	<script type="text/javascript">
+    $(window).load(function(){
+        $('#aboutModal').modal('show');
+    });
+</script>
+
+
+<!-- INFO MODAL****************************************************************-->
+<div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" >
+         <div class="modal-dialog">
+    <div class="modal-content">
+             <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="start()">×</button>
+        <h3 id="myModalLabel">Adventures of a Duck.</h3>
+      </div>
+             <div class="modal-body">
+        <p>In the summer of 2014, as part of a <a href="https://www.redditgifts.com/" target="_blank">Reddit Gifts</a> rubber duck exchange. A Glasgow Warriors duck went on a trip.</p>
+		<p>
+		<img src="https://maps.gisforthought.com/Photos/12_Adventure_Duck.jpg" height="100%" width="100%"/>
+		</p>
+		<p>This is a map of its journey.</p>
+      </div>
+        <div class="modal-footer">
+
+        <button class="btn btn-default" data-dismiss="modal" onclick="start()">Lets go!</button>
+      </div>
+     </div>
+  </div>
+ </div>
+<!--END MODAL-->
+		<div id="map" style="width: 100%; height: 100%; padding: 0; margin: 0; background: #fff;"></div>
+		
+		<script src="js/route_js_path.js"></script>
+		
+		<script>
+		//Create a map
+		var map = L.map('map', { maxZoom: 18, center: [55.868,-4.255], zoom: 10});
+		
+		//Add Background Mapping
+		L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+            attribution: '<a href="GISforThought.com">GISforThought</a> | Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data: &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/"> CC-BY-SA</a>',
+			subdomains: 'abc'
+        }).addTo(map);
+		
+		for (var i = 0, latlngs = [], len = route.length; i < len; i++) {
+			latlngs.push(new L.LatLng(route[i][0], route[i][1]));
+		}
+
+		var path = L.polyline(latlngs, {weight: 3, opacity: 0.6, color: 'red', snakingSpeed: 200, clickable: false });
+		
+		//map.fitBounds(L.latLngBounds(latlngs));
+
+			
+			//Create the photolayer
+			var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click', function (evt) {
+				evt.layer.bindPopup(L.Util.template('<img src="{url}" height="100%" width="100%"/>', evt.layer.photo), {
+					className: 'leaflet-popup-photo',
+					minWidth: 400
+				}).openPopup();
+			});
+			
+			window.onload = callForImages(0,22);
+			
+			function start(){
+			map.addOneTimeEventListener('zoomend', zoomToChina);
+			map.flyTo([51.495, 6.328], 6);
+			};
+			
+			function zoomToChina(){
+			map.flyTo([40.130, 116.477], 9);
+			map.addOneTimeEventListener('zoomend', startSnake);
+			};
+			
+			function startSnake(){
+			path.addTo(map).snakeIn();
+			};
+			
+			//Call the next function as soon as the page loads
+			//window.onload = callForImages()
+			
+			path.on('snakestart', function() {
+			callForImages(22,54)
+			});
+			
+			path.on('snakeend', function() {
+			callForImages(54,78)
+			map.fitBounds(photoLayer.getBounds());
+			});
+
+            //Makes a request, loading the getimages.php file
+            function callForImages(start_image, stop_image) {
+
+                //Create the request object
+                var httpReq = (window.XMLHttpRequest)?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+
+                //When it loads,
+                httpReq.onload = function() {
+
+                    //Convert the result back into JSON
+                    var result = JSON.parse(httpReq.responseText);
+
+                    //Load the images
+                    loadImages(result, start_image, stop_image);
+                }
+
+                //Request the page
+                try {
+                    httpReq.open("GET", "getphotos.php", true);
+                    httpReq.send(null);
+                } catch(e) {
+                    console.log(e);
+                }
+            }
+
+		//var photos = [];
+		
+            //Generates the images and sticks them into the photolayer
+            function loadImages(images, start_image, stop_image) {
+				//var photos = [];
+                //Loop over the images
+                for(var i = start_image; i < stop_image; i++) {
+					var photos = [];
+					photos.push({
+						lat: images[i].lat,
+						lng: images[i].lng,
+						url: images[i].filename,
+						//If you have thumbnails, switch the comments on the following lines.
+						//thumbnail: images[i].filename
+						thumbnail: images[i].thumbnail
+					});
+					photoLayer.add(photos).addTo(map);
+                }
+				//photoLayer.add(photos).addTo(map);
+				//Add the photos to the map
+				//photoLayer.add(photos).addTo(map);
+				//map.fitBounds(photoLayer.getBounds());
+				//Zoom the map to the photos
+            }
+
+		
+		//path.on('snakeend', function() {
+		//	console.log(photos);
+		//	console.log(photos[0]);
+		//	photoLayer.add(photos[0]).addTo(map);
+		//});
+		
+		//path.on('snakestart', function() {
+		//photoLayer.add(photos).addTo(map);
+		//});
+		
+		//path.addTo(map).snakeIn();
+
+        </script>
+    </body>
+</html>

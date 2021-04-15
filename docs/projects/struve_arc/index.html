@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+    <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 95%;
+            }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/activity_3260561305JyvaskylaWalking_1.js"></script>
+        <script src="data/Newscratchlayer_2.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[61.914341331658534,25.51645963987556],[61.93947537837367,25.54917161881996]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var layer_OpenStreetMapStandard_0 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            opacity: 1.0
+        });
+        layer_OpenStreetMapStandard_0.addTo(map);
+        map.addLayer(layer_OpenStreetMapStandard_0);
+        function pop_activity_3260561305JyvaskylaWalking_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['description'] !== null ? Autolinker.link(String(feature.properties['description'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['timestamp'] !== null ? Autolinker.link(String(feature.properties['timestamp'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['begin'] !== null ? Autolinker.link(String(feature.properties['begin'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['end'] !== null ? Autolinker.link(String(feature.properties['end'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['altitudeMode'] !== null ? Autolinker.link(String(feature.properties['altitudeMode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['tessellate'] !== null ? Autolinker.link(String(feature.properties['tessellate'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['extrude'] !== null ? Autolinker.link(String(feature.properties['extrude'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['visibility'] !== null ? Autolinker.link(String(feature.properties['visibility'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['drawOrder'] !== null ? Autolinker.link(String(feature.properties['drawOrder'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['icon'] !== null ? Autolinker.link(String(feature.properties['icon'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_activity_3260561305JyvaskylaWalking_1_0() {
+            return {
+                pane: 'pane_activity_3260561305JyvaskylaWalking_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_activity_3260561305JyvaskylaWalking_1');
+        map.getPane('pane_activity_3260561305JyvaskylaWalking_1').style.zIndex = 401;
+        map.getPane('pane_activity_3260561305JyvaskylaWalking_1').style['mix-blend-mode'] = 'normal';
+        var layer_activity_3260561305JyvaskylaWalking_1 = new L.geoJson(json_activity_3260561305JyvaskylaWalking_1, {
+            attribution: '',
+            pane: 'pane_activity_3260561305JyvaskylaWalking_1',
+            onEachFeature: pop_activity_3260561305JyvaskylaWalking_1,
+            style: style_activity_3260561305JyvaskylaWalking_1_0,
+        });
+        bounds_group.addLayer(layer_activity_3260561305JyvaskylaWalking_1);
+        map.addLayer(layer_activity_3260561305JyvaskylaWalking_1);
+        function pop_Newscratchlayer_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Coords'] !== null ? Autolinker.link(String(feature.properties['Coords'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Newscratchlayer_2_0() {
+            return {
+                pane: 'pane_Newscratchlayer_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(66,176,255,1.0)',
+            }
+        }
+        map.createPane('pane_Newscratchlayer_2');
+        map.getPane('pane_Newscratchlayer_2').style.zIndex = 402;
+        map.getPane('pane_Newscratchlayer_2').style['mix-blend-mode'] = 'normal';
+        var layer_Newscratchlayer_2 = new L.geoJson(json_Newscratchlayer_2, {
+            attribution: '',
+            pane: 'pane_Newscratchlayer_2',
+            onEachFeature: pop_Newscratchlayer_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Newscratchlayer_2_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Newscratchlayer_2);
+        map.addLayer(layer_Newscratchlayer_2);
+        setBounds();
+        </script>
+    </body>
+</html>
