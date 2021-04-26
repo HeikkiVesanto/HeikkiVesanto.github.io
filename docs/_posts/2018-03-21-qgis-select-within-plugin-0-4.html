@@ -4,12 +4,19 @@ status: publish
 published: true
 title: QGIS Select Within Plugin 0.4
 author: Heikki Vesanto
-permalink: /qgis-select-within-plugin-0-4/
+permalink: /qgis-select-within-plugin/
 date: '2018-03-21 09:00:38 +0000'
 date_gmt: '2018-03-21 09:00:38 +0000'
 comments: []
 ---
 <p><img src="https://gisforthought.com/media/2018-03-21_Select_within_GUI.png" alt="" class="aligncenter size-full wp-image-892" /></p>
+
+<p>Runs through each geometry that you want to select from and tests if the centroid or the point of surface central point falls within the selecting geometry. If the central point falls within the selecting polygon, it is usually mostly inside the selecting geometry.</p>
+
+<p>Or selecting based on percentage overlap. By default dissolving the selecting features first.</p>
+
+<p>Useful if you are splitting up a polygon layer based on a polygon coverage layer, as each polygon will only end up in one of the selecting polygon areas. Unlike with an Intersects query which would return the geometry twice if it is on the border one on each side, or a Within query, which would not return the geometry at all. Very useful if your selection and selecting geometries have similar boundaries.</p>
+
 <p>Version 0.4 brings a couple of new features to the Select Within plugin.</p>
 <p>Most importantly it now supports mostly within and percentage within selections.</p>
 <p>Also introduced is Pole of Inaccessibility within selections. As implemented in the QGIS core with the Polylabel algorithm: https://github.com/mapbox/polylabel</p>
@@ -31,3 +38,5 @@ comments: []
 <a href="https://github.com/HeikkiVesanto/QGIS_Centroid_Within/">GitHub Code Base</a></p>
 <p>Issues and bug tracker:<br />
 <a href="https://github.com/HeikkiVesanto/QGIS_Centroid_Within/issues">GitHub Issues</a></p>
+<p>Original Post:<br />
+<a href="https://gisforthought.com/centroid-within-selection-in-qgis/">Centroid Within Selection in QGIS</a></p>

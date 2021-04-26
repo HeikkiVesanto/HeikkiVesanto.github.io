@@ -4,12 +4,12 @@ status: publish
 published: true
 title: QGIS Multi Ring Buffer Plugin Version 1
 author: Heikki Vesanto
-permalink: /qgis-multi-ring-buffer-plugin-version-1/
+permalink: /qgis-multi-ring-buffer/
 date: '2018-02-07 23:23:22 +0000'
 date_gmt: '2018-02-07 23:23:22 +0000'
 comments: []
 ---
-<p>After about 3 years of existing. I am releasing version 1 of the <a href="http://gisforthought.com/qgis-multi-ring-buffer/">Multi Ring Buffer Plugin</a>.</p>
+<p>After about 3 years of existing. I am releasing version 1 of the Multi Ring Buffer Plugin.</p>
 <p><a href="https://plugins.qgis.org/plugins/Multi_Ring_Buffer/">QGIS plugin repository.</a></p>
 <p><img src="https://gisforthought.com/media/2018-02-07_CropperCapture76.png" alt="" width="442" height="344" class="aligncenter size-full wp-image-877" /></p>
 <p>With version 1 comes a few new features:</p>
@@ -20,3 +20,22 @@ comments: []
 <img src="https://gisforthought.com/media/2018-02-07_CropperCapture77.png" alt="" width="514" height="351" class="aligncenter size-full wp-image-879" /></p>
 <p>Non-doughnut buffer (regular):<br />
 <img src="https://gisforthought.com/media/2018-02-07_CropperCapture78.png" alt="" width="514" height="351" class="aligncenter size-full wp-image-880" /></p>
+
+
+<p>Works either in a sequential manner by buffering the resulting buffer and differencing the previous buffer, or a central manner by buffering the original feature with different distances. Also by default the buffer dissolves the features before buffering.</p>
+
+<p>Dissolving makes adjacent features behave in a better manner without overlapping buffers. The QGIS buffer feature has the logic behind this.</p>
+
+
+<p>Post:</p>
+<p><a href="https://gisforthought.com/qgis-multi-ring-buffer-buffer/">Buffering methodology</a></p>
+
+
+<p>Known issues:</p>
+<p><a href="https://rawgit.com/HeikkiVesanto/QGIS_Multi_Ring_Buffer/master/help/index.html">Help Guide</a></p>
+
+<p>Code:</p>
+<p><a href="https://github.com/HeikkiVesanto/QGIS_Multi_Ring_Buffer">GitHub Code Base</a></p>
+
+<p>Issues and bug tracker:</p>
+<p><a href="https://github.com/HeikkiVesanto/QGIS_Multi_Ring_Buffer/issues">GitHub Issues</a></p>
