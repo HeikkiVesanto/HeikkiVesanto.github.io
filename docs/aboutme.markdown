@@ -18,7 +18,7 @@ The posts and views on this blog are my own and are not representative of who I 
 [Follow @HeikkiVesanto](https://twitter.com/HeikkiVesanto/)
 
 ### GitHub
-[HeikkiVesanto](https://github.com/HeikkiVesanto
+[HeikkiVesanto](https://github.com/HeikkiVesanto)
 
 ### GIS Stackexchange:
 [HeikkiVesanto](https://gis.stackexchange.com/users/16530/heikkivesanto)

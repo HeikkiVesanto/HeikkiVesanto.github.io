@@ -4,6 +4,9 @@ title:  "30 Day Mapping Challenge 2019"
 date:   2019-12-01 01:16:59 +0000
 permalink: /portfolio/30-day-mapping-challenge-2019/
 ---
+
+Mapping challenge to create a map every day in November.
+
 ![All 30 days.](https://gisforthought.com/media/2020-02-24_all_30.png)
 ![Day 1 Points](https://gisforthought.com/media/2020-02-24_day1_point.png)
 ![Day 2 Lines](https://gisforthought.com/media/2020-02-24_day2_lines.png)
@@ -35,3 +38,5 @@ permalink: /portfolio/30-day-mapping-challenge-2019/
 ![Day 28 Funny](https://gisforthought.com/media/2020-02-24_day28_funny.png)
 ![Day 29 Experimental](https://gisforthought.com/media/2020-02-24_day30_experimental.gif)
 ![Day 30 Home](https://gisforthought.com/media/2020-02-24_day30.PNG)
+
+[Read more.](https://gisforthought.com/30-day-map-challenge-2019/)
