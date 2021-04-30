@@ -14,10 +14,11 @@ Mapping challenge to create a map every day in November.
 
 [Read more.](https://gisforthought.com/30-day-map-challenge-2019/)
 
+---
 
 ### Every Person in Great Britain Mapped
 
-A follow up to the Scotland map.
+A follow up to the Scotland map. A point on the map for every person in Great Britain.
 
 <iframe src="https://maps.gisforthought.com/gb_population/index.html" width="100%" height="500"></iframe>
 [Full screen.](https://maps.gisforthought.com/gb_population/index.html)
@@ -26,6 +27,7 @@ Generated using PostgreSQL/PostGIS, QGIS, with the web map in Leaflet JS.
 
 [Read more.](https://maps.gisforthought.com/gb_population/)
 
+---
 
 ### UK Rail Map
 
@@ -38,6 +40,7 @@ Mapping the UK Rail network by agency and parent company. Collects data directly
 
 [Read more.](https://gisforthought.com/uk-rail-map/)
 
+---
 
 ### Every Person in Scotland Mapped
 
@@ -50,6 +53,7 @@ Generated using PostgreSQL/PostGIS, QGIS, with the web map in Leaflet JS.
 <iframe src="https://maps.gisforthought.com/cartography/index.html" width="100%" height="500"></iframe>
 [Full screen.](https://maps.gisforthought.com/cartography/index.html)
 
+---
 
 ### QGIS Multi Ring Buffer Plugin
 
@@ -59,13 +63,13 @@ Plugin to automate the creation of multiple buffer rings around a selection. Wri
 ![Action.](https://gisforthought.com/media/2018-02-07_CropperCapture77.png)
 ![Action2.](https://gisforthought.com/media/portfolio_multiring_Capture.PNG)
 
-
 [QGIS Plugin Repository.](http://plugins.qgis.org/plugins/Multi_Ring_Buffer/)
 
 [GitHub.](https://github.com/HeikkiVesanto/QGIS_Multi_Ring_Buffer)
 
 [Read more.](https://gisforthought.com/qgis-multi-ring-buffer/)
 
+---
 
 ### QGIS Centroid Within Selection Plugin
 
@@ -80,6 +84,7 @@ Plugin for QGIS to make centroid within and point on surface within selections. 
 
 [Read more.](https://gisforthought.com/qgis-select-within-plugin/)
 
+---
 
 ### UK Postcode Comparison
 
@@ -93,16 +98,18 @@ Open data generated postcodes were compared against postcode data released by th
 [Read more part 1.](https://gisforthought.com/uk-postcode-polygon-accuracy-comparison/)
 [Read more part 2.](https://gisforthought.com/uk-postcode-polygon-accuracy-comparison-part-2/)
 
+---
 
 ### Great Circle Flight Lines
 
 Generating great circle flight lines using PostgreSQL and PostGIS. Uses casting to geography to achieve the shortest geodesic route between any two points on the globe.
 
-![Great circle flight lines.](https://gisforthought.com/media/2014-11-26_15872020385_689541c6b0_o.png
-![Helsinki flights.](https://gisforthought.com/media/portfolio_helsinki-connections.png
+![Great circle flight lines.](https://gisforthought.com/media/2014-11-26_15872020385_689541c6b0_o.png)
+![Helsinki flights.](https://gisforthought.com/media/portfolio_helsinki-connections.png)
 
 [Read more.](https://gisforthought.com/great-circle-flight-lines-in-postgis/)
 
+---
 
 ### Historic Outlines of Scotland
 
