@@ -31,8 +31,8 @@ Generated using PostgreSQL/PostGIS, QGIS, with the web map in Leaflet JS.
 
 Mapping the UK Rail network by agency and parent company. Collects data directly from the GTFS feed, automatically processes it every month using python and SQL, resulting in an up to date view of the UK rail network.
 
-![Network.](portfolio_UKRAIL_13643338343_810c69aff8_z.jpg)
-![Demo.](portfolio_UKRAIL_Capture1.PNG)
+![Network.](https://gisforthought.com/media/portfolio_UKRAIL_13643338343_810c69aff8_z.jpg)
+![Demo.](https://gisforthought.com/media/portfolio_UKRAIL_Capture1.PNG)
 
 [Full page interactive map.](https://maps.gisforthought.com/uk_rail_map/)
 
