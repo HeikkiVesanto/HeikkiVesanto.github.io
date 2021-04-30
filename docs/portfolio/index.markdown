@@ -32,8 +32,8 @@ Generated using PostgreSQL/PostGIS, QGIS, with the web map in Leaflet JS.
 
 Mapping the UK Rail network by agency and parent company. Collects data directly from the GTFS feed, automatically processes it every month using python and SQL, resulting in an up to date view of the UK rail network.
 
-<img src="https://gisforthought.com/media/portfolio_UKRAIL_13643338343_810c69aff8_z.jpg" alt="drawing" height="200"/>
-<img src="https://gisforthought.com/media/portfolio_UKRAIL_Capture1.PNG" alt="drawing" height="200"/>
+<img src="https://gisforthought.com/media/portfolio_UKRAIL_13643338343_810c69aff8_z.jpg" alt="network" height="400"/>
+<img src="https://gisforthought.com/media/portfolio_UKRAIL_Capture1.PNG" alt="demo" height="400"/>
 
 [Full page interactive map.](https://maps.gisforthought.com/uk_rail_map/)
 [Read more.](https://gisforthought.com/uk-rail-map/)
@@ -71,7 +71,8 @@ Plugin to automate the creation of multiple buffer rings around a selection. Wri
 Plugin for QGIS to make centroid within and point on surface within selections. Written in Python. Over 2500 downloads.
 
 ![UI.](https://gisforthought.com/media/2018-03-21_Select_within_GUI.png)
-![Action.](https://gisforthought.com/media/2018-03-21_Centroid-1024x656.png)
+
+<img src="https://gisforthought.com/media/2018-03-21_Centroid-1024x656.png" alt="Action." width="400"/>
 
 [QGIS Plugin Repository.](http://plugins.qgis.org/plugins/SelectWithin/)
 [GitHub.](https://github.com/HeikkiVesanto/QGIS_Centroid_Within)
@@ -85,8 +86,8 @@ Accuracy comparison of UK postcode data generated from Ordnance Survey CodePoint
 
 Open data generated postcodes were compared against postcode data released by the National Records for Scotland. Comparison done for actual area, and at a property level using the Glasgow Corporate Address Gazetteer.
 
-![Postcode breakdown.](https://gisforthought.com/media/portfolio_postcode_glasgow_options.png)
-![Postcode by source.](https://gisforthought.com/media/portfolio_postcode.png)
+![Postcode by source.](https://gisforthought.com/media/portfolio_postcode_glasgow_options.png)
+<img src="https://gisforthought.com/media/portfolio_postcode.png" alt="Postcode breakdown" height="400"/>
 
 [Read more part 1.](https://gisforthought.com/uk-postcode-polygon-accuracy-comparison/)
 
@@ -98,8 +99,8 @@ Open data generated postcodes were compared against postcode data released by th
 
 Generating great circle flight lines using PostgreSQL and PostGIS. Uses casting to geography to achieve the shortest geodesic route between any two points on the globe.
 
-![Great circle flight lines.](https://gisforthought.com/media/2014-11-26_15872020385_689541c6b0_o.png)
-![Helsinki flights.](https://gisforthought.com/media/portfolio_helsinki-connections.png)
+<img src="https://gisforthought.com/media/2014-11-26_15872020385_689541c6b0_o.png" alt="Great circle flight lines." height="400"/>
+<img src="https://gisforthought.com/media/portfolio_helsinki-connections.png" alt="Helsinki flights." height="400"/>
 
 [Read more.](https://gisforthought.com/great-circle-flight-lines-in-postgis/)
 
@@ -109,6 +110,6 @@ Generating great circle flight lines using PostgreSQL and PostGIS. Uses casting 
 
 Mapping the historic outlines of Scotland between 1600-1700. Included georeferencing vector data using ogr2ogr.
 
-![Scotland Outline.](https://gisforthought.com/media/2014-03-24_13352523035_0f80054b68_o.png)
+<img src="https://gisforthought.com/media/2014-03-24_13352523035_0f80054b68_o.png" alt="Scotland Outline." height="600"/>
 
 [Read more.](https://gisforthought.com/scotlands-changing-outline/)
