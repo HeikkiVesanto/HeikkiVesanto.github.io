@@ -57,8 +57,8 @@ Generated using PostgreSQL/PostGIS, QGIS, with the web map in Leaflet JS.
 
 Plugin to automate the creation of multiple buffer rings around a selection. Written in Python. Over 7000 downloads.
 
-<img src="https://gisforthought.com/media/2018-02-07_CropperCapture76.png" alt="UI." width="200"/>
-<img src="https://gisforthought.com/media/2018-02-07_CropperCapture77.png" alt="Action." width="200"/>
+<img src="https://gisforthought.com/media/2018-02-07_CropperCapture76.png" alt="UI." width="300"/>
+<img src="https://gisforthought.com/media/2018-02-07_CropperCapture77.png" alt="Action." width="300"/>
 
 [QGIS Plugin Repository.](http://plugins.qgis.org/plugins/Multi_Ring_Buffer/)
 [GitHub.](https://github.com/HeikkiVesanto/QGIS_Multi_Ring_Buffer)
@@ -70,8 +70,7 @@ Plugin to automate the creation of multiple buffer rings around a selection. Wri
 
 Plugin for QGIS to make centroid within and point on surface within selections. Written in Python. Over 2500 downloads.
 
-![UI.](https://gisforthought.com/media/2018-03-21_Select_within_GUI.png)
-
+<img src="https://gisforthought.com/media/2018-03-21_Select_within_GUI.png" alt="UI." width="300"/>
 <img src="https://gisforthought.com/media/2018-03-21_Centroid-1024x656.png" alt="Action." width="400"/>
 
 [QGIS Plugin Repository.](http://plugins.qgis.org/plugins/SelectWithin/)
