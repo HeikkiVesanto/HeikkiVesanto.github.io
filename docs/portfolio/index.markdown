@@ -20,11 +20,10 @@ Mapping challenge to create a map every day in November.
 
 A follow up to the Scotland map. A point on the map for every person in Great Britain.
 
-<iframe src="https://maps.gisforthought.com/gb_population/index.html" width="100%" height="500"></iframe>
-[Full screen.](https://maps.gisforthought.com/gb_population/index.html)
-
 Generated using PostgreSQL/PostGIS, QGIS, with the web map in Leaflet JS.
 
+<iframe src="https://maps.gisforthought.com/gb_population/index.html" width="100%" height="500"></iframe>
+[Full screen.](https://maps.gisforthought.com/gb_population/index.html)
 [Read more.](https://maps.gisforthought.com/gb_population/)
 
 ---
@@ -33,11 +32,10 @@ Generated using PostgreSQL/PostGIS, QGIS, with the web map in Leaflet JS.
 
 Mapping the UK Rail network by agency and parent company. Collects data directly from the GTFS feed, automatically processes it every month using python and SQL, resulting in an up to date view of the UK rail network.
 
-![Network.](https://gisforthought.com/media/portfolio_UKRAIL_13643338343_810c69aff8_z.jpg)
-![Demo.](https://gisforthought.com/media/portfolio_UKRAIL_Capture1.PNG)
+<img src="https://gisforthought.com/media/portfolio_UKRAIL_13643338343_810c69aff8_z.jpg" alt="drawing" height="200"/>
+<img src="https://gisforthought.com/media/portfolio_UKRAIL_Capture1.PNG" alt="drawing" height="200"/>
 
 [Full page interactive map.](https://maps.gisforthought.com/uk_rail_map/)
-
 [Read more.](https://gisforthought.com/uk-rail-map/)
 
 ---
@@ -61,12 +59,9 @@ Plugin to automate the creation of multiple buffer rings around a selection. Wri
 
 ![UI.](https://gisforthought.com/media/2018-02-07_CropperCapture76.png)
 ![Action.](https://gisforthought.com/media/2018-02-07_CropperCapture77.png)
-![Action2.](https://gisforthought.com/media/portfolio_multiring_Capture.PNG)
 
 [QGIS Plugin Repository.](http://plugins.qgis.org/plugins/Multi_Ring_Buffer/)
-
 [GitHub.](https://github.com/HeikkiVesanto/QGIS_Multi_Ring_Buffer)
-
 [Read more.](https://gisforthought.com/qgis-multi-ring-buffer/)
 
 ---
@@ -79,9 +74,7 @@ Plugin for QGIS to make centroid within and point on surface within selections. 
 ![Action.](https://gisforthought.com/media/2018-03-21_Centroid-1024x656.png)
 
 [QGIS Plugin Repository.](http://plugins.qgis.org/plugins/SelectWithin/)
-
 [GitHub.](https://github.com/HeikkiVesanto/QGIS_Centroid_Within)
-
 [Read more.](https://gisforthought.com/qgis-select-within-plugin/)
 
 ---
@@ -96,6 +89,7 @@ Open data generated postcodes were compared against postcode data released by th
 ![Postcode by source.](https://gisforthought.com/media/portfolio_postcode.png)
 
 [Read more part 1.](https://gisforthought.com/uk-postcode-polygon-accuracy-comparison/)
+
 [Read more part 2.](https://gisforthought.com/uk-postcode-polygon-accuracy-comparison-part-2/)
 
 ---
