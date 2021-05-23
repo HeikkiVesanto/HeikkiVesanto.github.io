@@ -124,7 +124,8 @@
         
         //OverPassAPI overlay
         var opl = new L.OverPassLayer({
-          endpoint: "https://z.overpass-api.de/api/", query: "node['place_of_worship'='mass_rock'](BBOX);out;", pane: 'pane_mass_rocks_1',
+          endpoint: "https://z.overpass-api.de/api/",
+          query: "(node[place_of_worship=mass_rock](BBOX);node['was:place_of_worship'=mass_rock](BBOX););out;", pane: 'pane_mass_rocks_1',
           callback: function(data) {
         for(var i=0;i<data.elements.length;i++) {
           var e = data.elements[i];
