@@ -135,12 +135,6 @@
                     <tr>\
                         <td colspan="2">' + (feature.properties['NAME_TAG'] !== null ? autolinker.link(feature.properties['NAME_TAG'].toLocaleString()) : '') + '</td>\
                     </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['NAME_GA'] !== null ? autolinker.link(feature.properties['NAME_GA'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['NAME_EN'] !== null ? autolinker.link(feature.properties['NAME_EN'].toLocaleString()) : '') + '</td>\
-                    </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
