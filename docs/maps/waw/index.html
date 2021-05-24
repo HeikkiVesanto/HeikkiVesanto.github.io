@@ -30,12 +30,14 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="data/WildAtlanticWay_1.js"></script>
+        <script src="data/counties_1.js"></script>
         <script>
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
         }).fitBounds([[51.353170575,-10.565075282125001],[55.479310425,-6.830918717875001]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a> &middot; <a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
@@ -102,7 +104,7 @@
             }
         }
         map.createPane('pane_WildAtlanticWay_1');
-        map.getPane('pane_WildAtlanticWay_1').style.zIndex = 401;
+        map.getPane('pane_WildAtlanticWay_1').style.zIndex = 403;
         map.getPane('pane_WildAtlanticWay_1').style['mix-blend-mode'] = 'normal';
         var layer_WildAtlanticWay_1 = new L.geoJson(json_WildAtlanticWay_1, {
             attribution: '',
@@ -115,6 +117,71 @@
         });
         bounds_group.addLayer(layer_WildAtlanticWay_1);
         map.addLayer(layer_WildAtlanticWay_1);
+        function style_counties_1_0() {
+            return {
+                pane: 'pane_counties_1',
+                opacity: 1,
+                color: 'rgba(35,35,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        function pop_counties_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME_TAG'] !== null ? autolinker.link(feature.properties['NAME_TAG'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME_GA'] !== null ? autolinker.link(feature.properties['NAME_GA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME_EN'] !== null ? autolinker.link(feature.properties['NAME_EN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        map.createPane('pane_counties_1');
+        map.getPane('pane_counties_1').style.zIndex = 402;
+        map.getPane('pane_counties_1').style['mix-blend-mode'] = 'normal';
+        var layer_counties_1 = new L.geoJson(json_counties_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_counties_1',
+            layerName: 'layer_counties_1',
+            pane: 'pane_counties_1',
+            onEachFeature: pop_counties_1,
+            style: style_counties_1_0,
+        });
+        bounds_group.addLayer(layer_counties_1);
+        map.addLayer(layer_counties_1);
+        setBounds();
+        var i = 0;
+        layer_counties_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['NAME_TAG'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['NAME_TAG']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_counties_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_counties_1]);
+        map.on("zoomend", function(){
+            resetLabels([layer_counties_1]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_counties_1]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_counties_1]);
+        });
         setBounds();
         </script>
     </body>
