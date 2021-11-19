@@ -1,59 +1,53 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-<meta charset="utf-8">
-<script type="text/javascript" src="https://openspace.ordnancesurvey.co.uk/osmapapi/openspace.js?key=F07E4C878B085965E0430B6CA40A9712"></script>  
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adding Overlays | Leaflet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://labs.os.uk/public/os-api-branding/v0.2.0/os-api-branding.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
 
-<style>
-  html, body {height: 100%;}
-  #map {width: 100%; height: 100%;}
-</style>
-
-</head>  
-  
-<body onload="init()">
-  
 <div id="map"></div>
 
+<script src="https://labs.os.uk/public/os-api-branding/v0.2.0/os-api-branding.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="/js/leaflet-0.7.2/leaflet.ajax.min.js"></script>
 <script>
-// Define the osMap variable
 
-var osMap, geojson_layer;
-var extent = new OpenLayers.Bounds(263000, 744585, 283000, 764585);
+    var apiKey = 'Chz3ac5hWW5zavWi0QdwUIvBfsN3YUIs';
 
-// This function creates the map and is called by the div in the HTML
+    var serviceUrl = 'https://api.os.uk/maps/raster/v1/zxy';
 
-function init()
+    // Initialize the map.
+    var mapOptions = {
+        minZoom: 7,
+        maxZoom: 20,
+        center: [ 51.5, -0.09 ],
+        zoom: 13,
+        maxBounds: [
+            [ 49.528423, -10.76418 ],
+            [ 61.331151, 1.9134116 ]
+        ],
+        attributionControl: false
+    };
 
-  {
-    
-    
-    var options = {
-      resolutions: [1000, 50, 25, 10, 5],
-      restrictedExtent: extent
-                  };   
-    
-// Create new map that calls the options variable
-    
-    osMap = new OpenSpace.Map('map', options)
+    var map = L.map('map', mapOptions);
 
-    
-// Set map centre in National Grid Eastings and Northings and select zoom level 9 for // OS VectorMap District
+    // Load and display ZXY tile layer on the map.
+    var basemap = L.tileLayer(serviceUrl + '/Light_3857/{z}/{x}/{y}.png?key=' + apiKey, {
+        maxZoom: 20
+    }).addTo(map);
 
-    osMap.setCenter(new OpenSpace.MapPoint(273000, 754585), 3);
-    
-geojson_layer = new OpenLayers.Layer.Vector("GeoJSON", {
-            projection: new OpenLayers.Projection("EPSG:4326"),
-style: {strokeColor: "green", strokeWidth: 2, strokeOpacity: 70},
-            strategies: [new OpenLayers.Strategy.Fixed()],
-            protocol: new OpenLayers.Protocol.HTTP({
-                url: "./walk.json",
-                format: new OpenLayers.Format.GeoJSON()
-            })
-        });
-    osMap.addLayers([geojson_layer]);
-  }
+    var geojsonLayer = new L.GeoJSON.AJAX("./walk.json");       
+    geojsonLayer.addTo(map);
 </script>
+
 </body>
 </html>
