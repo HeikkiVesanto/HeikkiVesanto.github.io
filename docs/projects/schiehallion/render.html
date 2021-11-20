@@ -23,7 +23,7 @@
 
     var apiKey = 'Chz3ac5hWW5zavWi0QdwUIvBfsN3YUIs';
 
-    var serviceUrl = 'https://api.os.uk/maps/raster/v1/zxy/Outdoor_3857/zxy';
+    var serviceUrl = 'https://api.os.uk/maps/raster/v1/zxy';
 
     // Initialize the map.
     var mapOptions = {
@@ -41,7 +41,7 @@
     var map = L.map('map', mapOptions);
 
     // Load and display ZXY tile layer on the map.
-    var basemap = L.tileLayer(serviceUrl + '/Light_3857/{z}/{x}/{y}.png?key=' + apiKey, {
+    var basemap = L.tileLayer(serviceUrl + '/Outdoor_3857/{z}/{x}/{y}.png?key=' + apiKey, {
         maxZoom: 20
     }).addTo(map);
 
