@@ -17,9 +17,9 @@ So we are now on Github pages.
 
 I ended up creating a few parsers to replace the images and links on the page:
 
-https://github.com/HeikkiVesanto/HeikkiVesanto.github.io/blob/main/docs/python_parsers/image_parser.py
+[image_parser.py](https://github.com/HeikkiVesanto/HeikkiVesanto.github.io/blob/main/docs/python_parsers/image_parser.py)
 
-https://github.com/HeikkiVesanto/HeikkiVesanto.github.io/blob/main/docs/python_parsers/link_parser.py
+[link_parser.py](https://github.com/HeikkiVesanto/HeikkiVesanto.github.io/blob/main/docs/python_parsers/link_parser.py)
 
 If you notice any issues drop me a line of Twitter: [HeikkiVesanto](https://twitter.com/HeikkiVesanto)
 
