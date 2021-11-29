@@ -9,3 +9,5 @@ title: Home
     </li>
   {% endfor %}
 </ul>
+
+[RSS Feed](https://gisforthought.com/feed)
