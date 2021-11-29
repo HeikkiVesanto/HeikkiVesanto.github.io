@@ -6,7 +6,7 @@
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/OverPassLayer.css" />
         <style>
@@ -22,7 +22,7 @@
         <div id="map" style="width: 100%; height: 100%; padding: 0; margin: 0; background: #fff;>
         </div>
         <script src="js/qgis2web_expressions.js"></script>
-        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
         <script src="js/leaflet.pattern.js"></script>
         <script src="js/leaflet-hash.js"></script>
@@ -41,7 +41,6 @@
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a> &middot;<a href="https://maps.archaeology.ie/HistoricEnvironment/" target="_blank"> National Monuments Service</a> &middot; <a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
-        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
@@ -146,9 +145,9 @@
         }
       },
       minZoomIndicatorOptions: {
-        position: 'topright',
+        position: 'bottomleft',
         minZoomMessageNoLayer: "no layer assigned",
-        minZoomMessage: "Current Zoom-Level: CURRENTZOOM mass-rocks already mapped will show at Level: MINZOOMLEVEL"
+        minZoomMessage: "Mass-rocks from OSM will be queried at zoom level: MINZOOMLEVEL || Current Zoom-Level: CURRENTZOOM "
       }
         });
 
