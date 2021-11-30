@@ -46,7 +46,7 @@ plugins:
 #   - jekyll-twitter-plugin
 
 feed:
-  path: /feed/feed.xml
+  path: /feed/index.html
 
 # jekyll-feed
 # Exclude from processing.
