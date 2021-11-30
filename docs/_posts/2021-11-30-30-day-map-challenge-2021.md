@@ -12,7 +12,7 @@ This year I wasn't really sure I would take part, as I had no plans and nothing 
 
 There were a few datasets that I had come across that I thought would be good subjects, and I got a lot of mileage out of them.
 
- # Dublin neighbourhoods
+## Dublin neighbourhoods
 
 These included the Dublin Inquirer neighbourhood survey.
 
@@ -24,7 +24,7 @@ I think this is a great initiative, and hopefully they get a real large set of r
 
 I did something similar for Glasgow ([here](https://gisforthought.com/glasgow-regions-mapped-progress-update-1/)) but only got 367 responses in total. So the power of having a well read paper behind the initiative is great. They are also reaching out to areas that have not had many responses, which is really great work.
 
- # OpenStreetMap
+## OpenStreetMap
 
 I also wanted to do some maps around OpenStreetMap in Ireland. The community here has had a large push to map all of the buildings in Ireland, which has progressed well.
 
@@ -32,9 +32,9 @@ But it is very much a work in progress.
 
 [OSM Ireland Buildings poster from State Of The Map 2021](https://files.osmfoundation.org/s/BD6HeiJiXTGkDMM)
 
- # Selected Maps
+## Selected Maps
  
- ### Hexagons:
+### Hexagons:
 
 ![Hex](/assets/30-day-map-challenge-2021/Day4Hexagons.png)
 
@@ -42,7 +42,7 @@ First of the Dublin boundaries series.
 
 Final interactive version: [Here](maps.gisforthought.com/dublin_hoods/)
 
- ### OpenStreetMap:
+### OpenStreetMap:
 
 ![OpenStreetMap](/assets/30-day-map-challenge-2021/Day5OpenStreetMap.png)
 
@@ -52,7 +52,7 @@ I created styles that can be applied to the GEOFABRIK Shapefile extracts, [from 
 
 The styles are available: [https://github.com/HeikkiVesanto/QGIS_OSM_Styles](https://github.com/HeikkiVesanto/QGIS_OSM_Styles)
 
- ### Red:
+### Red:
 
 ![Red](/assets/30-day-map-challenge-2021/Day6Red.png)
 
@@ -60,7 +60,7 @@ Mac vs Mc.
 
 Supermac's is an Irish fast food restaurant chain, who have had a few trademark disputes over the years with McDonald's over the use of Mc and Mac in burger names.
 
- ### 3D:
+### 3D:
 
 ![3D](/assets/30-day-map-challenge-2021/Day11_3D.png)
  
@@ -80,13 +80,13 @@ Interactive: [https://maps.gisforthought.com/LegoIreland/](https://maps.gisforth
 
 Might be better to not use landuse, but elevation for the colours.
 
- ### No Computer:
+### No Computer:
 
 ![No Computer](/assets/30-day-map-challenge-2021/Day15_NoComp.jpg)
 
 Nice to get away from the computer. Definitely promotes some creativity. But I just took it as an opportunity to walk on the beach.
 
- ### Land:
+### Land:
 
 ![Land](/assets/30-day-map-challenge-2021/Day17_Land.png)
 
@@ -94,7 +94,7 @@ My favourite of my maps.
 
 Land use vineyard across Europe from CORINE 2020, with the major regions labelled.
 
- ### GHSL:
+### GHSL:
 
 ![GHSL](/assets/30-day-map-challenge-2021/Day23_GHSL.gif)
 
@@ -104,7 +104,7 @@ Data clipping in QGIS/GDAL, rendered in Aerialod, with labels with GIMP afterwar
 
 This was my second favourite of my maps. I think the topic is interesting and the execution is pretty good. Was however quite manual and probably needed more exaggeration to see the differences.
 
- ### Historical:
+### Historical:
 
 ![Historical](/assets/30-day-map-challenge-2021/Day24_historical.gif)
 
@@ -112,7 +112,7 @@ A time lapse of 1,831,044 buildings in Ireland being added to OpenStreetMap.
 
 If you want to get involved see: [OpenStreetMap Ireland Buildings](https://tasks.openstreetmap.ie/about)
 
- ### Globe:
+### Globe:
 
 ![Globe](/assets/30-day-map-challenge-2021/Day24_historical.gif)
 
