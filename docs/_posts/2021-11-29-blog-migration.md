@@ -13,7 +13,7 @@ But that wasn't really a surprise, as I was only paying $1 per month.
 
 Luckily I had all my posts archived in regular e-mails from WordPress, and using a combination of Flickr, Archive.org, and the original posts I think I have recovered all of the images as well.
 
-So we are now on Github pages. 
+So we are now on Github pages.
 
 I ended up creating a few parsers to replace the images and links on the page:
 
