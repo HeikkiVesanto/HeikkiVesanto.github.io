@@ -28,9 +28,6 @@ github_username:  HeikkiVesanto
 show_downloads: false
 google_analytics: UA-41533238-3
 
-feed:
-  path: https://gisforthought.com/feed/
-
 lsi: false
 safe: true
 source: docs
