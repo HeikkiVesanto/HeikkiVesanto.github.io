@@ -1,15 +1,16 @@
 ---
-layout: post
-title:  "Feed"
-permalink: /feed_redir/
+layout: default
+title: Home
 ---
-# Feed
 
-RSS feed is now located at:
+Welcome to GISforThought.com.
 
-https://gisforthought.com/feed
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.date | date: "%Y-%m-%d" }} - {{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
 
-[Link](https://gisforthought.com/feed)
-
-Instead of:
-https://gisforthought.com/feed/
+[RSS Feed](https://gisforthought.com/feed)
