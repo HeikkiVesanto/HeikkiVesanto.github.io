@@ -1,6 +1,6 @@
 ---
 layout: null
-permalink: /feed/
+permalink: /atom/
 ---
 <?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://gisforthought.com/feed/" rel="self" type="application/atom+xml" /><link href="https://gisforthought.com/" rel="alternate" type="text/html" /><updated>2021-11-30T13:24:09+00:00</updated><id>https://gisforthought.com/feed/</id><title type="html">GISforThought</title><subtitle>GISforThought. GIS blog focussed on Open Source GIS.</subtitle><entry><title type="html">30 Day Map Challenge 2021</title><link href="https://gisforthought.com/2021/11/30/30-day-map-challenge-2021.html" rel="alternate" type="text/html" title="30 Day Map Challenge 2021" /><published>2021-11-30T00:00:00+00:00</published><updated>2021-11-30T00:00:00+00:00</updated><id>https://gisforthought.com/2021/11/30/30-day-map-challenge-2021</id><content type="html" xml:base="https://gisforthought.com/2021/11/30/30-day-map-challenge-2021.html">&lt;p&gt;This November I once again took part in the 30 Day Map Challenge started by &lt;a href=&quot;https://twitter.com/tjukanov&quot;&gt;Topi Tjukanov&lt;/a&gt;.&lt;/p&gt;
 
