@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: GISforThought
+title: GIS for Thought
 description: >- # this means to ignore newlines until "baseurl:"
   GISforThought. GIS blog focussed on Open Source GIS.
 baseurl: "" # the subpath of your site, e.g. /blog
