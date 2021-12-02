@@ -41,8 +41,8 @@ kramdown:
 
 # Build settings
 theme: jekyll-theme-cayman
-plugins:
-    - jekyll-feed
+#plugins:
+#    - jekyll-feed
 #   - jekyll-twitter-plugin
 
 # feed:
