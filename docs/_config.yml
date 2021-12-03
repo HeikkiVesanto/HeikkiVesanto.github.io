@@ -41,12 +41,12 @@ kramdown:
 
 # Build settings
 theme: jekyll-theme-cayman
-#plugins:
-#    - jekyll-feed
+plugins:
+    - jekyll-feed
 #   - jekyll-twitter-plugin
 
-# feed:
-#  path: /feed/index.html
+feed:
+  path: /feed/
 
 # Exclude from processing.
 # The following items will not be processed, by default.
