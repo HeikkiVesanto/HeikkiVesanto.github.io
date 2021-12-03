@@ -45,8 +45,8 @@ plugins:
     - jekyll-feed
 #   - jekyll-twitter-plugin
 
-feed:
-  path: /feed/
+#feed:
+#  path: /feed/
 
 # Exclude from processing.
 # The following items will not be processed, by default.
