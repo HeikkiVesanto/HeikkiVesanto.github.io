@@ -31,8 +31,10 @@
       <a href="https://gisforthought.com/aboutme/">About Me</a>
       </h3>
     </header>
-
+    
     <main id="content" class="main-content" role="main">
+      <p>Posted: {{ post.date | date: "%Y-%m-%d" }}</p>
+    
       {{ content }}
 
       <footer class="site-footer">

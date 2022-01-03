@@ -13,4 +13,4 @@ Welcome to GISforThought.com.
   {% endfor %}
 </ul>
 
-[RSS Feed](https://gisforthought.com/feed.xml)
+[RSS Feed](https://gisforthought.com/feed/)
