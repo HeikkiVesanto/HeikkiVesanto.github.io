@@ -8,7 +8,7 @@ permalink: /portfolio/
 
 Mapping challenge to create a map every day in November.
 
-![All 30 days.](/assets/30-day-map-challenge-2021/30_day_collage.png)
+![All 30 days.](/assets/30-day-map-challenge-2021/30_day_collage.jpg)
 
 [All maps.](https://gisforthought.com/portfolio/30-day-mapping-challenge-2021/)
 
