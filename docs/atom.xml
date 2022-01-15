@@ -9,6 +9,7 @@ permalink: /feed/
     <title>{{ site.title }}</title>
     <description>{{ site.description }}</description>
     <link>{{ site.url }}</link>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
     {% for post in site.posts %}
       {% unless post.draft %}
         <item>
