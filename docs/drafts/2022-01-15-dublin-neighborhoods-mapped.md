@@ -22,7 +22,7 @@ Luckily the Dublin InQuirer decided to run a similar survey, polling their subsc
 
 I have mapped all of the neighborhoods with 10 or more responses, and created an interactive map of the results.
 
-## Dublin Neighbourhoods:
+### Dublin Neighbourhoods:
 
 The following have been mapped as they had over 10 responses:
 
