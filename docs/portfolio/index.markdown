@@ -4,7 +4,7 @@ title:  "Portfolio"
 permalink: /portfolio/
 ---
 
-### 30 Day Mapping Challenge
+### 30 Day Mapping Challenge 2019
 
 Mapping challenge to create a map every day in November.
 
