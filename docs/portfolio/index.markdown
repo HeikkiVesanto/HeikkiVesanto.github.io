@@ -1,7 +1,19 @@
 ---
-layout: post
+layout: portfolio
 title:  "Portfolio"
 permalink: /portfolio/
+---
+
+### 30 Day Mapping Challenge 2021
+
+Mapping challenge to create a map every day in November.
+
+![All 30 days.](/assets/30-day-map-challenge-2021/30_day_collage.png)
+
+[All maps.](https://gisforthought.com/portfolio/30-day-mapping-challenge-2021/)
+
+[Read more.](https://gisforthought.com/2021/11/30/30-day-map-challenge-2021)
+
 ---
 
 ### 30 Day Mapping Challenge 2019

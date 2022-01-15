@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: portfolio
 title:  "30 Day Mapping Challenge 2019"
 date:   2019-12-01 01:16:59 +0000
 permalink: /portfolio/30-day-mapping-challenge-2019/

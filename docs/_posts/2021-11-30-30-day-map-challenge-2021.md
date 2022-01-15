@@ -117,3 +117,7 @@ If you want to get involved see: [OpenStreetMap Ireland Buildings](https://tasks
 ![Globe](/assets/30-day-map-challenge-2021/Day28_globe.gif)
 
 Simple spinning globe in QGIS, but I was happy that I was able to automate the export: [Gist](https://gist.github.com/HeikkiVesanto/252b7d65ba839de8a6f83065c7f27505)
+
+All maps:
+
+[See here](https://gisforthought.com/portfolio/30-day-mapping-challenge-2021/)

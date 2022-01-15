@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: portfolio
 title:  "30 Day Mapping Challenge 2021"
 date:   2021-12-01
 permalink: /portfolio/30-day-mapping-challenge-2021/
@@ -35,7 +35,7 @@ Hard:
 
 Answer keys:
 <details> 
-  <summary>Easy</summary>
+  <summary>Easy - click to show</summary>
 A - Galway
 B - Maynooth
 C - Belfast
@@ -47,7 +47,7 @@ H - Limerick
 I - Wexford
 </details>
 <details> 
-  <summary>Medium</summary>
+  <summary>Medium - click to show</summary>
 A - Waterford
 B - Cobh
 C - Westport
@@ -59,7 +59,7 @@ H - Portlaoise
 I - Sligo
 </details>
 <details> 
-  <summary>Hard</summary>
+  <summary>Hard - click to show</summary>
 A - Armagh
 B - Drogheda
 C - Tallagh
@@ -70,6 +70,7 @@ G - Carlow
 H - Nenagh
 I - Howth
 </details>
+
 ![Day10Raster.png](/assets/30-day-map-challenge-2021/Day10Raster.png)
 ![Day11_3D.png](/assets/30-day-map-challenge-2021/Day11_3D.png)
 ![Day12_Population.png](/assets/30-day-map-challenge-2021/Day12_Population.png)
