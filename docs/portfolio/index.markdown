@@ -4,6 +4,23 @@ title:  "Portfolio"
 permalink: /portfolio/
 ---
 
+Mapping Dublin neighborhoods. Based on a survey conducted by the Dulbin InQuirer. Data downloaded with a [Python script](https://gist.github.com/HeikkiVesanto/ae22000c64ad58b65d16174a6a057551) and processed in [PostgreSQL/PostGIS](https://gist.github.com/HeikkiVesanto/f008b0bb7a99ea0a4a30427f7b3d34c3). Maps created in QGIS.
+
+Individual neighborhood examples:
+
+[![The Liberties](/assets/dub-atlas-new/thumbs/dub_hood_theliberties.jpg)](/assets/dub-atlas-new/dub_hood_theliberties.png){:target="_blank"}
+[![Glasnevin](/assets/dub-atlas-new/thumbs/dub_hood_glasnevin.jpg)](/assets/dub-atlas-new/dub_hood_glasnevin.png){:target="_blank"}
+[![Raheny](/assets/dub-atlas-new/thumbs/dub_hood_raheny.jpg)](/assets/dub-atlas-new/dub_hood_raheny.png){:target="_blank"}
+
+Interactive map:
+
+<iframe src="https://maps.gisforthought.com/dublin_hoods/" width="100%" height="500"></iframe>
+[Full screen.](https://maps.gisforthought.com/dublin_hoods/)
+
+[Read more.](https://gisforthought.com/2022/01/15/dublin-neighborhoods-mapped)
+
+---
+
 ### 30 Day Mapping Challenge 2021
 
 Mapping challenge to create a map every day in November.

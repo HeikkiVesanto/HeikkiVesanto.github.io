@@ -4,7 +4,7 @@ title:  "Dublin Neighborhoods Mapped"
 ---
 Neighborhood boundaries are a fascinating topic. Where do people see their neighborhood extending to, how clear are those boundaries, and how do they shift with time.
 
-This is a topic that has been tackled a number of times in different locations. With the general public asked to draw their own neighborhood, or the ones they are familiar with, on a map. But there are challenges.
+This is a topic that has been tackled a number of times around the world, and with different types of locations ([like cities](https://gisforthought.com/crowdsourced-city-extents/)). With the general public asked to draw their own neighborhood, or the ones they are familiar with, on a map. But there are challenges.
 
 Sometimes the results are successful, like in [Boston](https://bostonography.com/2017/official-unofficial-neighborhoods-2017/). Boston only has around 60 neighborhoods, which are relatively clearly defined based on the mapping results. And Bostonography clearly had a great readership, with over 2300 responses.
 
