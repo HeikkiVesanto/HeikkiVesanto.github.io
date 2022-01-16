@@ -9,11 +9,11 @@ There are 3440 EDs in Ireland, 3409 after amalgamating low population ones. Thes
 
 Overall the data consists of a CSV file with 291893 rows of commuting data.
 
+Maps inspired by [Dónal Casey](http://www.spatialoverlay.xyz/uncategorized/ireland-a-country-in-motion-1-96-million-commutes/).
+
 ## Ireland
 
 Mapping Irish commuting data at a country level allows us to see the patterns of commuting.
-
-Maps inspired by [Dónal Casey](http://www.spatialoverlay.xyz/uncategorized/ireland-a-country-in-motion-1-96-million-commutes/).
 
 ![Purple](/assets/ireland-commuting/purp2.png)
 
