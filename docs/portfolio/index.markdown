@@ -33,6 +33,19 @@ Mapping challenge to create a map every day in November.
 
 ---
 
+### Ireland 2020 General Election HEX Maps
+
+Creating a HEX map for Irish general election results.
+
+![Ireland HEX](https://gisforthought.com/media/2020-02-17_hex-724x1024.png)
+
+![Ireland HEX](https://gisforthought.com/media/2020-02-17_geo-724x1024.png)
+
+The hexes and split files can be found on GitHub:
+https://github.com/HeikkiVesanto/Ireland2020GeneralElectionHEX
+
+---
+
 ### Mapping Irish Commutes
 
 Mapping commuting in Ireland. Presented at the FOSS4GUK 2019 conference in Edinburgh, and featured in the 2020 [GeoHipster calendar](https://geohipster.com/2020/03/).

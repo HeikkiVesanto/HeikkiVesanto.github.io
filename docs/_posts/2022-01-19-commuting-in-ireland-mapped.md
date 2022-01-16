@@ -30,7 +30,7 @@ Gold:
 
 ![Gold](/assets/ireland-commuting/gold.png)
 
-Color:#e5b636 - Addition blend - 100% opacity
+Color: #e5b636 - Addition blend - 100% opacity
 
 This map was featured in the [2020 GeoHipster calendar](https://geohipster.com/2020/03/).
 
@@ -55,7 +55,7 @@ Settlements were linked to EDs based on a few characteristics:
 
 [List of all settlements.](https://gisforthought.com/projects/irish_commutes/)
 
-Examples:
+### Examples:
 
 Donegal:
 
