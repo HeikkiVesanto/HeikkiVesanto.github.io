@@ -37,18 +37,20 @@ Mapping challenge to create a map every day in November.
 
 Creating a HEX map for Irish general election results.
 
-![Ireland HEX](https://gisforthought.com/media/2020-02-17_hex-724x1024.png)
+<img src="https://gisforthought.com/media/2020-02-17_hex-724x1024.png" alt="Ireland HEX." width="300"/>
+<img src="https://gisforthought.com/media/2020-02-17_geo-724x1024.png" alt="Split." width="300"/>
 
-![Ireland HEX](https://gisforthought.com/media/2020-02-17_geo-724x1024.png)
+The hexes and split files can be found on GitHub.
 
-The hexes and split files can be found on GitHub:
-https://github.com/HeikkiVesanto/Ireland2020GeneralElectionHEX
+[GitHub.](https://github.com/HeikkiVesanto/Ireland2020GeneralElectionHEX)
+
+[Read more.](https://gisforthought.com/ireland-2020-general-election-hex-maps/)
 
 ---
 
 ### Mapping Irish Commutes
 
-Mapping commuting in Ireland. Presented at the FOSS4GUK 2019 conference in Edinburgh, and featured in the 2020 [GeoHipster calendar](https://geohipster.com/2020/03/).
+Mapping commuting in Ireland. Presented at the FOSS4GUK 2019 conference in Edinburgh, and featured in the 2020 [GeoHipster calendar](https://geohipster.com/2020/03/). Processing done in PostgreSQL/PostGIS and rendering in QGIS.
 
 Done on a national scale:
 
@@ -56,7 +58,7 @@ Done on a national scale:
 
 And individual settlements:
 
-![Galway](https://gisforthought.com/projects/irish_commutes/Galway_Galway_city_and_suburbs.jpg)
+<img src="https://gisforthought.com/projects/irish_commutes/Galway_Galway_city_and_suburbs.jpg" alt="Galway." width="300"/>
 
 [All settlements.](https://gisforthought.com/projects/irish_commutes/)
 
