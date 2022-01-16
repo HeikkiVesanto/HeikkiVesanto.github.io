@@ -33,6 +33,24 @@ Mapping challenge to create a map every day in November.
 
 ---
 
+### Mapping Irish Commutes
+
+Mapping commuting in Ireland. Presented at the FOSS4GUK 2019 conference in Edinburgh, and featured in the 2020 [GeoHipster calendar](https://geohipster.com/2020/03/).
+
+Done on a national scale:
+
+![Gold](/assets/ireland-commuting/gold.png)
+
+And individual settlements:
+
+![Galway](https://gisforthought.com/projects/irish_commutes/Galway_Galway_city_and_suburbs.jpg)
+
+[All settlements.](https://gisforthought.com/projects/irish_commutes/)
+
+[Read more.](https://gisforthought.com/2022/01/19/commuting-in-ireland-mapped)
+
+---
+
 ### 30 Day Mapping Challenge 2019
 
 Mapping challenge to create a map every day in November.
