@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Dublin Neighborhoods Mapped"
+categories: featured
 ---
 Neighborhood boundaries are a fascinating topic. Where do people see their neighborhood extending to, how clear are those boundaries, and how do they shift with time.
 
