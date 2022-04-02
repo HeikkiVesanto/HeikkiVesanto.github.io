@@ -62,7 +62,7 @@ And individual settlements:
 
 <img src="https://gisforthought.com/projects/irish_commutes/Galway_Galway_city_and_suburbs.jpg" alt="Galway." width="300"/>
 
-[All settlements.](https://gisforthought.com/projects/irish_commutes/)
+[All settlements.](https://maps.gisforthought.com/irish_commutes/)
 
 [Read more.](https://gisforthought.com/2022/01/19/commuting-in-ireland-mapped)
 

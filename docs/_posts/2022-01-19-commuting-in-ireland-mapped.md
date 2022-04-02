@@ -53,13 +53,13 @@ Settlements were linked to EDs based on a few characteristics:
 - 75% of the settlement is in the ED OR
 - 90% of the ED is in the settlement
 
-[List of all settlements.](https://gisforthought.com/projects/irish_commutes/)
+[List of all settlements.](https://maps.gisforthought.com/irish_commutes/)
 
 ### Examples:
 
-Donegal:
+Letterkenny:
 
-![Donegal](https://gisforthought.com/projects/irish_commutes/Donegal_Letterkenny.jpg)
+![Letterkenny](https://gisforthought.com/projects/irish_commutes/Donegal_Letterkenny.jpg)
 
 Galway:
 
