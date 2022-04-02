@@ -4,7 +4,9 @@ title:  "Portfolio"
 permalink: /portfolio/
 ---
 
-Mapping Dublin neighborhoods. Based on a survey conducted by the Dulbin InQuirer. Data downloaded with a [Python script](https://gist.github.com/HeikkiVesanto/ae22000c64ad58b65d16174a6a057551) and processed in [PostgreSQL/PostGIS](https://gist.github.com/HeikkiVesanto/f008b0bb7a99ea0a4a30427f7b3d34c3). Maps created in QGIS.
+### Mapping Dublin neighborhoods.
+
+Based on a survey conducted by the Dulbin InQuirer. Data downloaded with a [Python script](https://gist.github.com/HeikkiVesanto/ae22000c64ad58b65d16174a6a057551) and processed in [PostgreSQL/PostGIS](https://gist.github.com/HeikkiVesanto/f008b0bb7a99ea0a4a30427f7b3d34c3). Maps created in QGIS.
 
 Individual neighborhood examples:
 
